@@ -1,3 +1,8 @@
+import pandas as pd
+
+
+# Global variables
+exp_months = [pd.DataFrame()] * 12
 
 
 def main_menu():
@@ -16,10 +21,44 @@ def main_menu():
     print('7 - Exit\n')
 
 
+# Create the month expense data frames
+def month_expense():
+    """
+    Generates the month expenses list
+    """
+    # Global variables
+    global exp_months
+
+    base_categ = ['days', 'income']
+
+    num_rows = 31
+    months = [0, 2, 4, 6, 7, 9, 11]
+    for ind in months:
+        df = pd.DataFrame(0, index=range(num_rows), columns=range(len(base_categ)))
+        df.columns = base_categ
+        exp_months[ind] = df
+
+    # months with 30 days
+    num_rows = 30
+    months = [1, 3, 5, 8, 10]
+    for ind in months:
+        df = pd.DataFrame(0, index=range(num_rows), columns=range(len(base_categ)))
+        df.columns = base_categ
+        exp_months[ind] = df
+
+    # month with 28 days
+    num_rows = 28
+    exp_months[1] = pd.DataFrame(0, index=range(num_rows), columns=range(len(base_categ)))
+    exp_months[1].columns = base_categ
+
+
 def main():
     """
     Main function from which the Expense book runs
     """
+    # Generate the monthly expense DataFrame
+    month_expense()
+
     while True:
         main_menu()
         main_menu_opt = input('Enter your option: ')
