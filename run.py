@@ -351,6 +351,7 @@ def main():
 
         elif main_menu_opt == 2:
             print('\n-------------- MENU ADD/EDIT INCOME --------------\n')
+            sub_menu_exp_income('income')
 
         elif main_menu_opt == 3:
             print('\n------------------- SHOW LIST --------------------\n')
