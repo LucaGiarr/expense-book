@@ -183,6 +183,37 @@ def add_edit_delete_categories(sub_menu_option):
         print(f'The categories present are:\n{", ".join(categories)}\n')
 
 
+def sub_menu_categories():
+    """
+    Function/Sub-menu to add, rename or delete a category
+    """
+    # Globar variables
+    # global categories, exp_months
+
+    while True:
+        add_edit_menu('categories')
+        categories_menu_opt = int(input('Enter your option: '))
+        # Validate menu option
+
+        if categories_menu_opt == 0:
+            print('\nAdd a Category')
+
+            add_edit_delete_categories(categories_menu_opt)
+
+            print(f'\n{", ".join(categories)}')
+            print('are the categories present.\n')
+            
+        elif categories_menu_opt == 1 or categories_menu_opt == 2:
+
+            add_edit_delete_categories(categories_menu_opt)
+            print('Edit or delete')
+            
+        elif categories_menu_opt == 3:
+            break
+        else:
+            print('\nWrong number! Choose a correct one.\n')
+
+
 def main():
     """
     Main function from which the Expense book runs
@@ -197,6 +228,7 @@ def main():
 
         if main_menu_opt == 0:
             print('\n------------ MENU ADD/EDIT CATEGORIES ------------\n')
+            sub_menu_categories()
 
         elif main_menu_opt == 1:
             print('\n------------- MENU ADD/EDIT EXPENSES -------------\n')
