@@ -50,6 +50,34 @@ def add_edit_menu(strg):
         print('3 - Go Back\n')
 
 
+def numb_selection_to_string(numb, menu_item):
+    """
+    Converts the number of a menu choice to a string.
+    menu_item is a string (categories or expense or calcs)
+    """
+    numb = int(numb)
+    if menu_item == 'delete':
+        if numb == 1:
+            selection = 'Expense'
+        elif numb == 2:
+            selection = 'Income'
+
+    else:
+        if numb == 0:
+            selection = 'add'
+        elif numb == 1:
+            if menu_item == 'categories':
+                selection = 'rename'
+            else:
+                selection = 'edit'
+        elif numb == 2:
+            selection = 'delete'
+        elif numb == 3:
+            selection = 'go_back'
+
+    return selection
+
+
 # Create the month expense data frames
 def month_expense():
     """
@@ -214,6 +242,93 @@ def sub_menu_categories():
             print('\nWrong number! Choose a correct one.\n')
 
 
+# Expense and Income
+def add_edit_delete_exp_income(income_expense_str, option_str):
+    """
+    Adds, edit and delete an expenses or an income. 
+    """
+    # Globar variables
+    # global categories, exp_months
+
+    date_str = input(f'\nEnter the date of {income_expense_str} (DD/MM): ')
+    # validate date
+
+    if income_expense_str == 'income':
+        categ_name = 'income'
+        categ_column = 0
+    else:
+        while True:
+            print(f'The categories present are:\n{" ,".join(categories)}')
+            categ_name = input(f'\nEnter the category name of which you want to {option_str} the {income_expense_str}: ')
+
+            if categ_name in categories:
+                print('\nData is valid!\n')
+                break
+            else:
+                print(
+                    f'{categ_name} is not in categories. Please enter a valid category name.\n')
+
+        categ_column = categories.index(categ_name)
+
+    if option_str == 'delete':
+        exp_inc_val = 0
+    else:
+
+        exp_inc_str = input(
+            f'\nEnter the new value of the {income_expense_str}: ')
+        # validate expense (number)
+
+        exp_inc_val = round(float(exp_inc_str), 3)
+
+    date = date_str.split('/')
+    day = int(date[0])
+    month = int(date[1])
+
+    # Extract the expenses as DataFrame 
+    # from the list of all expenses of all months
+    df = exp_months[month-1]
+
+    if income_expense_str == 'expense':
+        ind = 2
+    else:
+        ind = 1
+
+    if option_str == 'add':
+        df.iat[day-1, categ_column + ind] += exp_inc_val
+    else:
+        df.iat[day-1, categ_column + ind] = exp_inc_val
+        exp_months[month-1] = df
+
+    # Print confirmation of expense/income added
+    print(f'\n{exp_inc_val}euro')
+    print(f'{option_str}ed successfully to the category {categ_name} on the day {date_str}\n')
+
+    print(exp_months[month-1])
+
+
+def sub_menu_exp_income(income_expense_str):
+    """
+    Function/Sub-menu to add, rename or delete an expense or an income
+    """
+    # Globar variables
+    # global categories
+
+    while True:
+
+        add_edit_menu(income_expense_str)
+        menu_opt = int(input('Enter your option: '))
+        # Validate menu option
+
+        option_str = numb_selection_to_string(menu_opt, income_expense_str)
+
+        if menu_opt == 0 or menu_opt == 1 or menu_opt == 2:
+            print(f'\n{option_str.capitalize()} an {income_expense_str}')
+            add_edit_delete_exp_income(income_expense_str, option_str)
+            pass
+        else:
+            break
+
+
 def main():
     """
     Main function from which the Expense book runs
@@ -232,6 +347,7 @@ def main():
 
         elif main_menu_opt == 1:
             print('\n------------- MENU ADD/EDIT EXPENSES -------------\n')
+            sub_menu_exp_income('expense')
 
         elif main_menu_opt == 2:
             print('\n-------------- MENU ADD/EDIT INCOME --------------\n')
