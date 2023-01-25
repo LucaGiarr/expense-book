@@ -55,6 +55,104 @@ def month_expense():
     exp_months[1].columns = base_categ
 
 
+# Add/Edit Categories
+# Categories
+def add_edit_delete_categories(sub_menu_option):
+    """
+    Adds, edit and delete a category
+    """
+    # Global variables
+    global categories, exp_months
+
+    if len(categories) == 0:
+        categ_present = "None"
+    else:
+        categ_present = ", ".join(categories)
+
+    if sub_menu_option == 0:
+        
+        remaining_categ = 10-len(categories)
+        print(
+                f'\nInsert max {remaining_categ} categories separated by a comma and with no spaces.\n')
+        print('Example: restaurant,supermarket,bills,investments,other \n')
+        print(f'{categ_present}')
+        print('are the categories present.\n')
+
+        categ_items = str.lower(
+                input('Enter your categories of the expenses here: \n'))
+
+        categ_list = categ_items.split(',')
+
+        # validate category names
+
+        for categ in categ_list:
+            categories.append(categ)
+
+            for ind in range(len(exp_months)):
+                exp_months[ind][categ] = 0
+
+    elif sub_menu_option == 1 or sub_menu_option == 2:
+
+        while True:
+            print(f'{categ_present}')
+            print('are the categories present.\n')
+
+            sub_menu_opt_str = numb_selection_to_string(
+                sub_menu_option, 'categories')
+
+            edit_del_str = str.lower(
+                input(f'Insert the category you want to {sub_menu_opt_str}: '))
+
+            # Check if this category is existing
+            categ_already_present = edit_del_str in categories
+            if categ_already_present == True:
+                print('\nData is valid!\n')
+                break
+            else:
+                print('Category name not present.\n')
+
+        ind = categories.index(edit_del_str)
+        if sub_menu_option == 1:
+            # Rename one category
+
+            
+            new_name_categ = input(
+                    'Insert the new category name (insert just one category name): ')
+            # validate category
+            if new_name_categ in categories:
+                print('\nCategory name already present.')
+                print('Choose a category name not already present.\n')
+
+            else:
+                print('\nData is valid!\n')
+                
+
+            categories[ind] = new_name_categ
+
+            # Apply the changes to the expense DataFrame
+            for month in range(len(exp_months)):
+                for item in range(len(categories)):
+                    exp_months[month].columns.values[item +
+                                                     2] = categories[item]
+
+            print(exp_months[0])
+            print('\nChanges also applied to the expense DataFrame (rename)\n')
+        else:
+            # Delete one category
+            categories.pop(ind)
+
+            # Apply the changes to the expense DataFrame
+            for month in range(len(exp_months)):
+                exp_months[month] = exp_months[month].drop(
+                    edit_del_str, axis=1)
+
+            print(exp_months[11])
+
+            print('\nChanges also applied to the expense DataFrame (delete)\n')
+
+        print(f'Category {sub_menu_opt_str}d successfully!\n')
+        print(f'The categories present are:\n{", ".join(categories)}\n')
+
 def main():
     """
     Main function from which the Expense book runs
