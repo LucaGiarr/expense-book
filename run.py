@@ -2,9 +2,10 @@ import pandas as pd
 
 
 # Global variables
+categories = []
 exp_months = [pd.DataFrame()] * 12
 
-
+# Menus
 def main_menu():
     """
     Shows the initial options and features of the Expense book
@@ -19,6 +20,34 @@ def main_menu():
     print('5 - Print to Terminal')
     print('6 - Delete Expense Book')
     print('7 - Exit\n')
+
+
+# Add/Edit menu
+def add_edit_menu(strg):
+    """
+    Shows the menu of the add/edit Categories, Expenses and Income
+    """
+    # Global variables
+    # global categories
+
+    strg = strg.capitalize()
+
+    cat_length = len(categories)
+    if strg == 'categories' and cat_length == 10:
+        print('Are present 10 categories. You can:')
+        print(f'1 - Rename {strg}')
+        print(f'2 - Delete {strg}')
+        print('3 - Go Back\n')
+    elif strg == 'categories':
+        print(f'0 - Add {strg}')
+        print(f'1 - Rename {strg}')
+        print(f'2 - Delete {strg}')
+        print('3 - Go Back\n')
+    else:
+        print(f'0 - Add {strg}')
+        print(f'1 - Edit {strg}')
+        print(f'2 - Delete {strg}')
+        print('3 - Go Back\n')
 
 
 # Create the month expense data frames
@@ -152,6 +181,7 @@ def add_edit_delete_categories(sub_menu_option):
 
         print(f'Category {sub_menu_opt_str}d successfully!\n')
         print(f'The categories present are:\n{", ".join(categories)}\n')
+
 
 def main():
     """
