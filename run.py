@@ -204,16 +204,16 @@ def days_in_month(y, m):
     https://www.tutorialspoint.com/number-of-days-in-a-month-in-python#:~:text=Practical%20Data%20Science%20using%20Python&text=Suppose%20we%20have%20one%20year,then%20the%20result%20is%2029.&text=if%20m%20is%20in%20the,31%2C%20otherwise%2C%20return%2030.
     """
     leap = 0
-    if y% 400 == 0:
+    if y % 400 == 0:
         leap = 1
     elif y % 100 == 0:
         leap = 0
-    elif y% 4 == 0:
+    elif y % 4 == 0:
         leap = 1
-    if m==2:
+    if m == 2:
         return 28 + leap
-    list = [1,3,5,7,8,10,12]
-    if m in list:
+    months_31_days = [1, 3, 5, 7, 8, 10, 12]
+    if m in months_31_days:
         return 31
     return 30
 
@@ -222,7 +222,8 @@ def days_in_month(y, m):
 def validate_categ_strg(categ_list, remaining_categ):
     """
     Validates category names strings (used in the categories function)
-    Inside the try: the total number of categories < 10, no spaces between category names - Numbers allowed as category names.
+    Inside the try: the total number of categories < 10, no spaces between category names
+    Numbers allowed as category names.
     """
     # Global variables
     global categories
@@ -282,7 +283,7 @@ def validate_numb_int(str_item, num_min, num_max):
     Validates data (number) raising a ValueError if the input is not a number or in the range provided in the argument.
     """
     try:
-        if str_item.isdecimal() == False:
+        if not str_item.isdecimal():
             raise ValueError('the input is not allowed')
         elif int(str_item) < num_min or int(str_item) > num_max:
             raise ValueError('option out of range')
@@ -296,7 +297,8 @@ def validate_numb_int(str_item, num_min, num_max):
 
 def validate_numb_float(str_item, num_min, num_max):
     """
-    Validates data (float number) raising a ValueError if the input is not a number or in the range provided in the argument.
+    Validates data (float number) raising a
+    ValueError if the input is not a number or in the range provided in the argument.
     """
     try:
         if not float(str_item):
@@ -339,7 +341,8 @@ def validate_date(date_str):
 
 def validate_date_just_month(date_str):
     """
-    Validates data (just month) raising a ValueError if the input from the user is not as suggested of the text printed in the terminal.
+    Validates data (just month) raising a
+    ValueError if the input from the user is not as suggested of the text printed in the terminal.
     """
     try:
         if len(date_str) != 2:
@@ -469,7 +472,7 @@ def sub_menu_categories():
             add_edit_menu('categories')
             categories_menu_opt = input('Enter your option: ')
             # Validate menu option
-            if validate_numb_int(categories_menu_opt,0, 3):
+            if validate_numb_int(categories_menu_opt, 0, 3):
                 print('\nData is valid!\n')
                 categories_menu_opt = int(categories_menu_opt)
                 break
@@ -514,7 +517,8 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     else:
         while True:
             print(f'The categories present are:\n{" ,".join(categories)}')
-            categ_name = input(f'\nEnter the category name of which you want to {option_str} the {income_expense_str}: ')
+            categ_name = input(
+                f'\nEnter the category name of which you want to {option_str} the {income_expense_str}: ')
 
             if categ_name in categories:
                 print('\nData is valid!\n')
@@ -529,11 +533,10 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         exp_inc_val = 0
     else:
         while True:
-            exp_inc_str = input(
-            f'\nEnter the new value of the {income_expense_str}: ')
+            exp_inc_str = input(f'\nEnter the new value of the {income_expense_str}: ')
             # validate expense (number)
             max_val = 999999999999
-            if validate_numb_float(exp_inc_str,0, max_val):
+            if validate_numb_float(exp_inc_str, 0, max_val):
                 print('\nData is valid!\n')
                 break
 
@@ -605,7 +608,7 @@ def sub_menu_calcs():
             calcs_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
-            if validate_numb_int(menu_opt,0, 3):
+            if validate_numb_int(menu_opt, 0, 3):
                 print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
@@ -758,7 +761,7 @@ def sub_menu_print():
             show_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
-            if validate_numb_int(menu_opt,0,2):
+            if validate_numb_int(menu_opt, 0, 2):
                 print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
@@ -849,7 +852,7 @@ def del_exp_book():
             del_exp_book_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
-            if validate_numb_int(menu_opt,0,3):
+            if validate_numb_int(menu_opt, 0, 3):
                 print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
@@ -960,7 +963,7 @@ def del_exp_book():
                     delete_sub_sub_menu()
                     sub_sub_menu_opt = input('Enter your option: ')
                     # Validate menu option
-                    if validate_numb_int(sub_sub_menu_opt):
+                    if validate_numb_int(sub_sub_menu_opt, 0, 2):
                         print('\nData is valid!\n')
                         sub_sub_menu_opt = int(sub_sub_menu_opt)
                         break
