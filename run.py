@@ -845,10 +845,14 @@ def del_exp_book():
     global categories, exp_months
 
     while True:
-        del_exp_book_menu()
-        menu_opt = input('Enter your option: ')
-        # validate option (calcs_menu)
-        menu_opt = int(menu_opt)
+        while True:
+            del_exp_book_menu()
+            menu_opt = input('Enter your option: ')
+            # validate option (calcs_menu)
+            if validate_numb_int(menu_opt,0,3):
+                print('\nData is valid!\n')
+                menu_opt = int(menu_opt)
+                break
 
         if menu_opt == 3:
             # Go Back
@@ -886,23 +890,35 @@ def del_exp_book():
 
         else:
             menu_opt_str = numb_selection_to_string(menu_opt, 'delete')
-            delete_sub_menu(menu_opt_str)
-            sub_menu_opt = input('Enter your option: ')
-            #  validate menu option
-            sub_menu_opt = int(sub_menu_opt)
+            while True:
+                delete_sub_menu(menu_opt_str)
+                sub_menu_opt = input('Enter your option: ')
+                #  validate menu option
+                if validate_numb_int(sub_menu_opt, 0, 2):
+                    print('\nData is valid!\n')
+                    sub_menu_opt = int(sub_menu_opt)
+                    break
 
         if sub_menu_opt == 0:
             # Delete Expense or Income of one month
-            month_str = input(f'\nEnter the month you want to delete the {menu_opt_str} (MM): ')
-            # Validate month
-            month = int(month_str)
+            while True:
+                month_str = input(f'\nEnter the month you want to delete the {menu_opt_str} (MM): ')
+                # Validate month
+                if validate_date_just_month(month_str):
+                    print('\nData is valid!\n')
+                    month = int(month_str)
+                    break
 
             if menu_opt == 1:
                 # Delete Expense of one month
-                delete_sub_sub_menu()
-                sub_sub_menu_opt = input('Enter your option: ')
-                # Validate option
-                sub_sub_menu_opt = int(sub_sub_menu_opt)
+                while True:
+                    delete_sub_sub_menu()
+                    sub_sub_menu_opt = input('Enter your option: ')
+                    # Validate option
+                    if validate_numb_int(sub_sub_menu_opt, 0, 2):
+                        print('\nData is valid!\n')
+                        sub_sub_menu_opt = int(sub_sub_menu_opt)
+                        break
 
                 if sub_sub_menu_opt == 0:
                     # Delete Expenses of a month of ALL categories
@@ -940,10 +956,14 @@ def del_exp_book():
             # Delete Expense or Income of the year
             if menu_opt == 1:
                 # Delete Expense of the year
-                delete_sub_sub_menu()
-                sub_sub_menu_opt = input('Enter your option: ')
-                # Validate menu option
-                sub_sub_menu_opt = int(sub_sub_menu_opt)
+                while True:
+                    delete_sub_sub_menu()
+                    sub_sub_menu_opt = input('Enter your option: ')
+                    # Validate menu option
+                    if validate_numb_int(sub_sub_menu_opt):
+                        print('\nData is valid!\n')
+                        sub_sub_menu_opt = int(sub_sub_menu_opt)
+                        break
 
                 if sub_sub_menu_opt == 0:
                     # Delete Expenses of the whole year of ALL categories
