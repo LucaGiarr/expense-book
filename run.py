@@ -498,11 +498,15 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     """
     Adds, edit and delete an expenses or an income. 
     """
-    # Globar variables
-    # global categories, exp_months
+    # Global variables
+    global categories, exp_months
 
-    date_str = input(f'\nEnter the date of {income_expense_str} (DD/MM): ')
-    # validate date
+    while True:
+        date_str = input(f'\nEnter the date of {income_expense_str} (DD/MM): ')
+        # validate date
+        if validate_date(date_str):
+            print('\nData is valid!')
+            break
 
     if income_expense_str == 'income':
         categ_name = 'income'
@@ -524,10 +528,14 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     if option_str == 'delete':
         exp_inc_val = 0
     else:
-
-        exp_inc_str = input(
+        while True:
+            exp_inc_str = input(
             f'\nEnter the new value of the {income_expense_str}: ')
-        # validate expense (number)
+            # validate expense (number)
+            max_val = 999999999999
+            if validate_numb_float(exp_inc_str,0, max_val):
+                print('\nData is valid!\n')
+                break
 
         exp_inc_val = round(float(exp_inc_str), 3)
 
@@ -562,20 +570,24 @@ def sub_menu_exp_income(income_expense_str):
     Function/Sub-menu to add, rename or delete an expense or an income
     """
     # Global variables
-    # global categories
+    global categories
 
     while True:
-
-        add_edit_menu(income_expense_str)
-        menu_opt = int(input('Enter your option: '))
-        # Validate menu option
+        while True:
+            add_edit_menu(income_expense_str)
+            menu_opt = input('Enter your option: ')
+            # Validate menu option
+            if validate_numb_int(menu_opt, 0, 3):
+                print('Data is valid!')
+                menu_opt = int(menu_opt)
+                break
 
         option_str = numb_selection_to_string(menu_opt, income_expense_str)
 
         if menu_opt == 0 or menu_opt == 1 or menu_opt == 2:
             print(f'\n{option_str.capitalize()} an {income_expense_str}')
             add_edit_delete_exp_income(income_expense_str, option_str)
-            pass
+
         else:
             break
 
