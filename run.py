@@ -601,10 +601,15 @@ def sub_menu_calcs():
     global categories, exp_months
 
     while True:
-        calcs_menu()
-        menu_opt = input('Enter your option: ')
-        # validate option (calcs_menu)
-        menu_opt = int(menu_opt)
+        while True:
+            calcs_menu()
+            menu_opt = input('Enter your option: ')
+            # validate option (calcs_menu)
+            if validate_numb_int(menu_opt,0, 3):
+                print('\nData is valid!\n')
+                menu_opt = int(menu_opt)
+                break
+
         if menu_opt == 3:
             # Go Back
             break
@@ -612,10 +617,14 @@ def sub_menu_calcs():
             menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
             print(f'\nSpent in {menu_opt_str}:')
 
-            calcs_sub_menu()
-            sub_menu_opt = input('Enter your option: ')
-            #  validate option (calcs_sub_menu)
-            sub_menu_opt = int(sub_menu_opt)
+            while True:
+                calcs_sub_menu()
+                sub_menu_opt = input('Enter your option: ')
+                #  validate option (calcs_sub_menu)
+                if validate_numb_int(sub_menu_opt, 0, 2):
+                    print('\nData is valid!\n')
+                    sub_menu_opt = int(sub_menu_opt)
+                    break
 
         if menu_opt == 0:
             # Spent in a day
@@ -623,8 +632,12 @@ def sub_menu_calcs():
                 # Go Back
                 pass
             else:
-                date_str = input(f'\nEnter the date of expense (DD/MM): ')
-                # validate date
+                while True:
+                    date_str = input(f'\nEnter the date of expense (DD/MM): ')
+                    # validate date
+                    if validate_date(date_str):
+                        print('\nData is valid!\n')
+                        break
 
                 date = date_str.split('/')
                 day = int(date[0])
@@ -660,9 +673,13 @@ def sub_menu_calcs():
                 # Go Back
                 pass
             else:
-                date_str = input(f'\nEnter the month of expense (MM): ')
-                # validate date
-                month = int(date_str)
+                while True:
+                    date_str = input(f'\nEnter the month of expense (MM): ')
+                    # validate date
+                    if validate_date_just_month(date_str):
+                        print('\nData is valid!\n')
+                        month = int(date_str)
+                        break
 
             if sub_menu_opt == 0:
                 # Spent in 1 month in 1 category
