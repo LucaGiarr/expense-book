@@ -85,49 +85,6 @@ def add_edit_menu(strg):
         print('3 - Go Back\n')
 
 
-def numb_selection_to_string(numb, menu_item):
-    """
-    Converts the number of a menu choice to a string.
-    menu_item is a string (categories or expense or calcs)
-    """
-    numb = int(numb)
-    selection = ''
-    if menu_item == 'calcs':
-        if numb == 0:
-            selection = 'a day'
-        elif numb == 1:
-            selection = 'a month'
-        else:
-            selection = 'the whole year'
-
-    elif menu_item == 'show':
-        if numb == 0:
-            selection = 'Expense'
-        elif numb == 1:
-            selection = 'Income'
-
-    elif menu_item == 'delete':
-        if numb == 1:
-            selection = 'Expense'
-        elif numb == 2:
-            selection = 'Income'
-
-    else:
-        if numb == 0:
-            selection = 'add'
-        elif numb == 1:
-            if menu_item == 'categories':
-                selection = 'rename'
-            else:
-                selection = 'edit'
-        elif numb == 2:
-            selection = 'delete'
-        elif numb == 3:
-            selection = 'go_back'
-
-    return selection
-
-
 # Do a Calculation menus
 def calcs_menu():
     """
@@ -196,8 +153,210 @@ def delete_sub_sub_menu():
     print('2 - Go Back\n')
 
 
+# Other functions
+def numb_selection_to_string(numb, menu_item):
+    """
+    Converts the number of a menu choice to a string.
+    menu_item is a string (categories or expense or calcs)
+    """
+    numb = int(numb)
+    selection = ''
+    if menu_item == 'calcs':
+        if numb == 0:
+            selection = 'a day'
+        elif numb == 1:
+            selection = 'a month'
+        else:
+            selection = 'the whole year'
+
+    elif menu_item == 'show':
+        if numb == 0:
+            selection = 'Expense'
+        elif numb == 1:
+            selection = 'Income'
+
+    elif menu_item == 'delete':
+        if numb == 1:
+            selection = 'Expense'
+        elif numb == 2:
+            selection = 'Income'
+
+    else:
+        if numb == 0:
+            selection = 'add'
+        elif numb == 1:
+            if menu_item == 'categories':
+                selection = 'rename'
+            else:
+                selection = 'edit'
+        elif numb == 2:
+            selection = 'delete'
+        elif numb == 3:
+            selection = 'go_back'
+
+    return selection
+
+
+# Return days in a month function
+def days_in_month(y, m):
+    """
+    Returns the number of days in a month
+    https://www.tutorialspoint.com/number-of-days-in-a-month-in-python#:~:text=Practical%20Data%20Science%20using%20Python&text=Suppose%20we%20have%20one%20year,then%20the%20result%20is%2029.&text=if%20m%20is%20in%20the,31%2C%20otherwise%2C%20return%2030.
+    """
+    leap = 0
+    if y% 400 == 0:
+        leap = 1
+    elif y % 100 == 0:
+        leap = 0
+    elif y% 4 == 0:
+        leap = 1
+    if m==2:
+        return 28 + leap
+    list = [1,3,5,7,8,10,12]
+    if m in list:
+        return 31
+    return 30
+
+
+# Validation inputs
+def validate_categ_strg(categ_list, remaining_categ):
+    """
+    Validates category names strings (used in the categories function)
+    Inside the try: the total number of categories < 10, no spaces between category names - Numbers allowed as category names.
+    """
+    # Global variables
+    global categories
+
+    item_present = []
+    for item in categ_list:
+        item_present.append(item in categories)
+
+    space_present = []
+    for item in categ_list:
+        space_present.append(" " in item)
+
+    dot_present = []
+    for item in categ_list:
+        dot_present.append("." in item)
+
+    try:
+        if len(categ_list) > remaining_categ:
+            raise ValueError('too many categories inserted')
+        elif len(categories) > 0 and True in item_present:
+            raise ValueError('category name already present')
+        elif True in space_present:
+            raise ValueError('there is a space at the beginning, end or between category names')
+        elif True in dot_present:
+            raise ValueError('there is a "." in a category name')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.')
+        return False
+
+    return True
+
+
+def validate_strg(str_item):
+    """
+    Validates data (string) raising a ValueError if a dot, comma or a space is present in a category name
+    """
+    try:
+        if ',' in str_item:
+            raise ValueError('"," not allowed in the category name')
+        elif '.' in str_item:
+            raise ValueError('"." not allowed in the category name')
+        elif ' ' in str_item:
+            raise ValueError('" " not allowed in the category name')
+        elif '-' in str_item:
+            raise ValueError('"-" not allowed in the category name')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
+
+    return True
+
+
+def validate_numb_int(str_item, num_min, num_max):
+    """
+    Validates data (number) raising a ValueError if the input is not a number or in the range provided in the argument.
+    """
+    try:
+        if str_item.isdecimal() == False:
+            raise ValueError('the input is not allowed')
+        elif int(str_item) < num_min or int(str_item) > num_max:
+            raise ValueError('option out of range')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
+
+    return True
+
+
+def validate_numb_float(str_item, num_min, num_max):
+    """
+    Validates data (float number) raising a ValueError if the input is not a number or in the range provided in the argument.
+    """
+    try:
+        if float(str_item) == False:
+            raise ValueError('the input is not allowed')
+        elif float(str_item) <= num_min or float(str_item) >= num_max:
+            raise ValueError('value out of range')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
+
+    return True
+
+
+def validate_date(date_str):
+    """
+    Validates data (date) raising a ValueError if the input is not as shown in the input.
+    """
+
+    try:
+        if len(date_str) != 5:
+            raise ValueError('a number or "/" missing in the input')
+        elif date_str[:2].isnumeric() == False:
+            raise ValueError('the "DD" numbers are not allowed')
+        elif date_str[3:].isnumeric() == False:
+            raise ValueError('the "MM" numbers are not allowed')
+        elif int(date_str[:2]) < 1 or int(date_str[:2]) > days_in_month(2023,int(date_str[3:])):
+            raise ValueError(f'"DD" out of range. This month has {days_in_month(2023,int(date_str[3:]))} days')
+        elif int(date_str[3:]) < 1 or int(date_str[3:]) > 12:
+            raise ValueError('"MM" out of range')
+        elif date_str[2] != "/":
+            raise ValueError('missing "/" between DD and MM')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
+
+    return True
+
+
+def validate_date_just_month(date_str):
+    """
+    Validates data (just month) raising a ValueError if the input from the user is not as suggested of the text printed in the terminal.
+    """
+    try:
+        if len(date_str) != 2:
+            raise ValueError('the length of the input is not correct')
+        elif not date_str.isnumeric():
+            raise ValueError('the input is not allowed')
+        elif int(date_str) < 1 or int(date_str) > 12:
+            raise ValueError('"MM" out of range')
+
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
+
+    return True
+
+
 # Add/Edit Categories
-# Categories
 def add_edit_delete_categories(sub_menu_option):
     """
     Adds, edit and delete a category
