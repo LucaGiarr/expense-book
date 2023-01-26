@@ -56,7 +56,22 @@ def numb_selection_to_string(numb, menu_item):
     menu_item is a string (categories or expense or calcs)
     """
     numb = int(numb)
-    if menu_item == 'delete':
+    selection = ''
+    if menu_item == 'calcs':
+        if numb == 0:
+            selection = 'a day'
+        elif numb == 1:
+            selection = 'a month'
+        else:
+            selection = 'the whole year'
+
+    elif menu_item == 'show':
+        if numb == 0:
+            selection = 'Expense'
+        elif numb == 1:
+            selection = 'Income'
+
+    elif menu_item == 'delete':
         if numb == 1:
             selection = 'Expense'
         elif numb == 2:
@@ -95,6 +110,25 @@ def calcs_sub_menu():
     """
     print('\n0 - Spent in a specific Category')
     print('1 - Spent in all Categories')
+    print('2 - Go Back\n')
+
+
+# Print to terminal menu
+def show_menu():
+    """
+    Shows the menu of Print to Terminal
+    """
+    print('\n0 - Expense')
+    print('1 - Income')
+    print('2 - Go Back\n')
+
+
+def show_sub_menu(opt_str):
+    """
+    Shows the sub-menu of Print to Terminal
+    """
+    print(f'\n0 - {opt_str} of a month')
+    print(f'1 - {opt_str} of the year')
     print('2 - Go Back\n')
 
 
@@ -485,6 +519,86 @@ def sub_menu_calcs():
                 pass
 
 
+# Print to Terminal
+def sub_menu_print():
+    """
+    Prints to terminal an expense or an income in a month or of the whole year
+    """
+    # Global variables
+    global categories, exp_months
+
+    while True:
+        show_menu()
+        menu_opt = input('Enter your option: ')
+        # validate option (calcs_menu)
+        menu_opt = int(menu_opt)
+
+        if menu_opt == 2:
+            # Go Back
+            break
+        elif len(categories) == 0 and menu_opt == 0:
+            print('\nNo expense because there are no categories.')
+            print('Add first a category.')
+        else:
+
+            menu_opt_str = numb_selection_to_string(menu_opt, 'show')
+
+            show_sub_menu(menu_opt_str)
+            sub_menu_opt = input('Enter your option: ')
+            #  validate option (calcs_sub_menu)
+            sub_menu_opt = int(sub_menu_opt)
+
+            if sub_menu_opt == 0:
+                # Expense or Income of one month
+
+                month_str = input(f'\nEnter the month of {menu_opt_str} (MM): ')
+                # Validate month
+                month = int(month_str)
+
+                if menu_opt == 0:
+                    # Expense of one month
+                    df_exp = exp_months[month - 1]
+                    del df_exp['income']
+                    print(df_exp)
+                else:
+                    # Income of one month
+                    print(exp_months[month - 1].loc[:, 'days':'income'])
+
+            elif sub_menu_opt == 1:
+                # Expense or Income of the year
+                if menu_opt == 0:
+                    # Expense of the year
+                    result = pd.DataFrame()
+                    for categ in categories:
+                        for month in range(len(exp_months)):
+                            res = exp_months[month][categ].sum()
+
+                            result.at[month + 1, categ] = res
+
+                    exp_list = result.sum().tolist()
+                    exp_year = 0
+                    for item in exp_list:
+                        exp_year += (round(float(item), 2))
+
+                    print(result)
+                    print(f'\nIn total you spent {exp_year} euro this year.')
+
+                else:
+                    # Income of the year
+                    result = pd.DataFrame()
+                    for month in range(len(exp_months)):
+                        res = exp_months[month]['income'].sum()
+
+                        result.at[month + 1, 'income'] = res
+
+                    inc_year = result.sum().tolist()
+                    print(result)
+                    print(f'\nThe income of the year is {inc_year[0]} euro.')
+            else:
+                # Go back
+                pass
+
+
 def main():
     """
     Main function from which the Expense book runs
@@ -522,6 +636,7 @@ def main():
 
         elif main_menu_opt == 5:
             print('\n----------------- PRINT TO SCREEN ----------------')
+            sub_menu_print()
 
         elif main_menu_opt == 6:
             print('\n--------------- DELETE EXPENSE BOOK --------------\n')
