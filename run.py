@@ -78,6 +78,26 @@ def numb_selection_to_string(numb, menu_item):
     return selection
 
 
+# sub-menus (Calculations)
+def calcs_menu():
+    """
+    Shows the menu of Calculations
+    """
+    print('\n0 - Spent in a day')
+    print('1 - Spent in a month')
+    print('2 - Spent in the whole year')
+    print('3 - Go Back\n')
+
+
+def calcs_sub_menu():
+    """
+    Shows the sub-menu of Calculations
+    """
+    print('\n0 - Spent in a specific Category')
+    print('1 - Spent in all Categories')
+    print('2 - Go Back\n')
+
+
 # Create the month expense data frames
 def month_expense():
     """
@@ -215,7 +235,7 @@ def sub_menu_categories():
     """
     Function/Sub-menu to add, rename or delete a category
     """
-    # Globar variables
+    # Global variables
     # global categories, exp_months
 
     while True:
@@ -310,7 +330,7 @@ def sub_menu_exp_income(income_expense_str):
     """
     Function/Sub-menu to add, rename or delete an expense or an income
     """
-    # Globar variables
+    # Global variables
     # global categories
 
     while True:
@@ -327,6 +347,142 @@ def sub_menu_exp_income(income_expense_str):
             pass
         else:
             break
+
+
+# Calculations
+def sub_menu_calcs():
+    """
+    Does calculations with the expenses and prints the values the user chooses to see
+    """
+    # Global variables
+    global categories, exp_months
+
+    while True:
+        calcs_menu()
+        menu_opt = input('Enter your option: ')
+        # validate option (calcs_menu)
+        menu_opt = int(menu_opt)
+        if menu_opt == 3:
+            # Go Back
+            break
+        else:
+            menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
+            print(f'\nSpent in {menu_opt_str}:')
+
+            calcs_sub_menu()
+            sub_menu_opt = input('Enter your option: ')
+            #  validate option (calcs_sub_menu)
+            sub_menu_opt = int(sub_menu_opt)
+
+        if menu_opt == 0:
+            # Spent in a day
+            if sub_menu_opt == 2:
+                # Go Back
+                pass
+            else:
+                date_str = input(f'\nEnter the date of expense (DD/MM): ')
+                # validate date
+
+                date = date_str.split('/')
+                day = int(date[0])
+                month = int(date[1])
+
+            if sub_menu_opt == 0:
+                # Spent in 1 day in 1 category
+                while True:
+                    print(f'\nThe categories present are:\n{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    # validate name of the category
+                    if categ_name in categories:
+                        print('\nData is valid!\n')
+                        break
+                    else:
+                        print(f'{categ_name} is not in categories.')
+
+                result = exp_months[month - 1].at[day - 1, categ_name]
+                print(f'\nThe {date_str} you spent {result} euro in the category {categ_name}')
+
+            elif sub_menu_opt == 1:
+                # Spent in 1 day in all categories
+                result = 0
+                for item in categories:
+                    result += (exp_months[month - 1].at[day - 1, item])
+
+                print(f'\nThe {date_str} you spent {result} euro.')
+
+        elif menu_opt == 1:
+            # Spent in 1 month
+
+            if sub_menu_opt == 2:
+                # Go Back
+                pass
+            else:
+                date_str = input(f'\nEnter the month of expense (MM): ')
+                # validate date
+                month = int(date_str)
+
+            if sub_menu_opt == 0:
+                # Spent in 1 month in 1 category
+                while True:
+                    print(f'The categories present are:\n{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    # validate name of the category
+                    if categ_name in categories:
+                        print('\nData is valid!\n')
+                        break
+                    else:
+                        print(f'{categ_name} is not in categories.\n')
+
+                result = exp_months[month - 1][categ_name].sum()
+                print(
+                    f'\nThe {date_str} you spent {result} euro in the category {categ_name}.')
+
+            elif sub_menu_opt == 1:
+                # Spent in 1 month in all categories
+                result = 0
+                for item in categories:
+                    value = (exp_months[month - 1][item].sum())
+                    result += value
+                    print(f'{item}: {value} euro')
+
+                print(f'\nThe {date_str} you spent {result} euro.')
+
+        elif menu_opt == 2:
+            # Spent in the whole year
+            if sub_menu_opt == 0:
+                # Spent in 1 year in 1 category
+                while True:
+                    print(f'The categories present are:\n{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    # validate name of the category
+                    if categ_name in categories:
+                        print('\nData is valid!\n')
+                        break
+                    else:
+                        print(f'{categ_name} is not in categories.\n')
+
+                result = 0
+                for month in range(len(exp_months)):
+                    result += exp_months[month][categ_name].sum()
+
+                print(
+                    f'\nIn the whole 2023 you spent {result} euro in the category {categ_name}.')
+
+            elif sub_menu_opt == 1:
+                # Spent in 1 year in all categories
+                result = 0
+                for month in range(len(exp_months)):
+                    result_month = 0
+                    for item in categories:
+                        value = (exp_months[month][item].sum())
+                        result += value
+                        result_month += value
+
+                    print(f'{month + 1}: {result_month} euro')
+
+                print(f'\nIn the whole 2023 you spent {result} euro.')
+            else:
+                pass
 
 
 def main():
@@ -358,6 +514,7 @@ def main():
 
         elif main_menu_opt == 4:
             print('\n------------------ CALCULATIONS ------------------')
+            sub_menu_calcs()
 
         elif main_menu_opt == 5:
             print('\n----------------- PRINT TO SCREEN ----------------')
