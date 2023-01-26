@@ -370,20 +370,23 @@ def add_edit_delete_categories(sub_menu_option):
         categ_present = ", ".join(categories)
 
     if sub_menu_option == 0:
-        
-        remaining_categ = 10-len(categories)
-        print(
+        while True:
+            remaining_categ = 10 - len(categories)
+            print(
                 f'\nInsert max {remaining_categ} categories separated by a comma and with no spaces.\n')
-        print('Example: restaurant,supermarket,bills,investments,other \n')
-        print(f'{categ_present}')
-        print('are the categories present.\n')
+            print('Example: restaurant,supermarket,bills,investments,other \n')
+            print(f'{categ_present}')
+            print('are the categories present.\n')
 
-        categ_items = str.lower(
+            categ_items = str.lower(
                 input('Enter your categories of the expenses here: \n'))
 
-        categ_list = categ_items.split(',')
+            categ_list = categ_items.split(',')
 
-        # validate category names
+            # validate category names
+            if validate_categ_strg(categ_list, remaining_categ):
+                print('\nData Valid!\n')
+                break
 
         for categ in categ_list:
             categories.append(categ)
@@ -405,7 +408,7 @@ def add_edit_delete_categories(sub_menu_option):
 
             # Check if this category is existing
             categ_already_present = edit_del_str in categories
-            if categ_already_present == True:
+            if categ_already_present:
                 print('\nData is valid!\n')
                 break
             else:
@@ -414,18 +417,18 @@ def add_edit_delete_categories(sub_menu_option):
         ind = categories.index(edit_del_str)
         if sub_menu_option == 1:
             # Rename one category
-
-            
-            new_name_categ = input(
+            while True:
+                new_name_categ = input(
                     'Insert the new category name (insert just one category name): ')
-            # validate category
-            if new_name_categ in categories:
-                print('\nCategory name already present.')
-                print('Choose a category name not already present.\n')
-
-            else:
-                print('\nData is valid!\n')
-                
+                # validate category
+                if new_name_categ in categories:
+                    print('\nCategory name already present.')
+                    print('Choose a category name not already present.\n')
+                elif validate_strg(new_name_categ) is False:
+                    pass
+                else:
+                    print('\nData is valid!\n')
+                    break
 
             categories[ind] = new_name_categ
 
@@ -459,12 +462,17 @@ def sub_menu_categories():
     Function/Sub-menu to add, rename or delete a category
     """
     # Global variables
-    # global categories, exp_months
+    global categories, exp_months
 
     while True:
-        add_edit_menu('categories')
-        categories_menu_opt = int(input('Enter your option: '))
-        # Validate menu option
+        while True:
+            add_edit_menu('categories')
+            categories_menu_opt = input('Enter your option: ')
+            # Validate menu option
+            if validate_numb_int(categories_menu_opt,0, 3):
+                print('\nData is valid!\n')
+                categories_menu_opt = int(categories_menu_opt)
+                break
 
         if categories_menu_opt == 0:
             print('\nAdd a Category')
