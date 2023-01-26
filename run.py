@@ -5,7 +5,42 @@ import pandas as pd
 categories = []
 exp_months = [pd.DataFrame()] * 12
 
-# Menus
+
+# Create the month expense data frames
+def month_expense():
+    """
+    Generates the month expenses list
+    """
+    # Global variables
+    global exp_months
+
+    base_categ = ['days', 'income']
+
+    num_rows = 31
+    months = [0, 2, 4, 6, 7, 9, 11]
+    for ind in months:
+        df = pd.DataFrame(
+            0, index=range(num_rows), columns=range(len(base_categ)))
+        df.columns = base_categ
+        exp_months[ind] = df
+
+    # months with 30 days
+    num_rows = 30
+    months = [1, 3, 5, 8, 10]
+    for ind in months:
+        df = pd.DataFrame(
+            0, index=range(num_rows), columns=range(len(base_categ)))
+        df.columns = base_categ
+        exp_months[ind] = df
+
+    # month with 28 days
+    num_rows = 28
+    exp_months[1] = pd.DataFrame(
+        0, index=range(num_rows), columns=range(len(base_categ)))
+    exp_months[1].columns = base_categ
+
+
+# ------------ Menus ------------
 def main_menu():
     """
     Shows the initial options and features of the Expense book
@@ -93,7 +128,7 @@ def numb_selection_to_string(numb, menu_item):
     return selection
 
 
-# sub-menus (Calculations)
+# Do a Calculation menus
 def calcs_menu():
     """
     Shows the menu of Calculations
@@ -113,7 +148,7 @@ def calcs_sub_menu():
     print('2 - Go Back\n')
 
 
-# Print to terminal menu
+# Print to terminal menus
 def show_menu():
     """
     Shows the menu of Print to Terminal
@@ -132,38 +167,33 @@ def show_sub_menu(opt_str):
     print('2 - Go Back\n')
 
 
-# Create the month expense data frames
-def month_expense():
+# Delete Expense book menus
+def del_exp_book_menu():
     """
-    Generates the month expenses list
+    Shows the menu of Delete Expense book
     """
-    # Global variables
-    # global exp_months
+    print('\n0 - Delete Categories (included Expenses and Income)')
+    print('1 - Delete Expense')
+    print('2 - Delete Income')
+    print('3 - Go Back\n')
 
-    base_categ = ['days', 'income']
 
-    num_rows = 31
-    months = [0, 2, 4, 6, 7, 9, 11]
-    for ind in months:
-        df = pd.DataFrame(
-            0, index=range(num_rows), columns=range(len(base_categ)))
-        df.columns = base_categ
-        exp_months[ind] = df
+def delete_sub_menu(opt_str):
+    """
+    Shows the sub-menu of Delete Expense book
+    """
+    print(f'\n0 - Delete {opt_str} of a month')
+    print(f'1 - Delete {opt_str} of the year')
+    print('2 - Go Back\n')
 
-    # months with 30 days
-    num_rows = 30
-    months = [1, 3, 5, 8, 10]
-    for ind in months:
-        df = pd.DataFrame(
-            0, index=range(num_rows), columns=range(len(base_categ)))
-        df.columns = base_categ
-        exp_months[ind] = df
 
-    # month with 28 days
-    num_rows = 28
-    exp_months[1] = pd.DataFrame(
-        0, index=range(num_rows), columns=range(len(base_categ)))
-    exp_months[1].columns = base_categ
+def delete_sub_sub_menu():
+    """
+    Shows the sub-menu of the sub-menu of Delete Expense book
+    """
+    print(f'\n0 - Delete Expense of ALL categories')
+    print(f'1 - Delete Expense of ONE category')
+    print('2 - Go Back\n')
 
 
 # Add/Edit Categories
@@ -599,6 +629,161 @@ def sub_menu_print():
                 pass
 
 
+# Delete Expense book
+def del_exp_book():
+    """
+    Deletes Expense or Income of a whole month or year
+    """
+    # Global variables
+    global categories, exp_months
+
+    while True:
+        del_exp_book_menu()
+        menu_opt = input('Enter your option: ')
+        # validate option (calcs_menu)
+        menu_opt = int(menu_opt)
+
+        if menu_opt == 3:
+            # Go Back
+            break
+        elif menu_opt == 0:
+            if len(categories) == 0:
+                print('There are no categories present.')
+            else:
+                print(
+                    'Are you sure you want to delete all the categories included the expenses and income?\n')
+                while True:
+                    sub_menu_opt = input('Enter your option (Y/N): ')
+                    # convert the input to lower case to be able to validate the input (validation is case-sensitive)
+                    sub_menu_opt_low = sub_menu_opt.lower()
+                    # validate yes or no
+                    if sub_menu_opt_low == 'y' or sub_menu_opt == 'n':
+                        print('\nData is valid!\n')
+                        sub_menu_opt = sub_menu_opt.upper()
+                        break
+                    else:
+                        print(f'\n{sub_menu_opt} is not valid.\n')
+                if sub_menu_opt == 'N':
+                    print('Data NOT deleted.')
+                else:
+                    for month in range(len(exp_months)):
+                        exp_months[month].drop(
+                            exp_months[month].iloc[:, 2:], inplace=True, axis=1)
+                        exp_months[month]['income'] = 0
+
+                    categories = []
+                    print('Expense book deleted successfully!')
+
+        elif menu_opt == 1 and len(categories) == 0:
+            print('There are no categories present.')
+
+        else:
+            menu_opt_str = numb_selection_to_string(menu_opt, 'delete')
+            delete_sub_menu(menu_opt_str)
+            sub_menu_opt = input('Enter your option: ')
+            #  validate menu option
+            sub_menu_opt = int(sub_menu_opt)
+
+        if sub_menu_opt == 0:
+            # Delete Expense or Income of one month
+            month_str = input(f'\nEnter the month you want to delete the {menu_opt_str} (MM): ')
+            # Validate month
+            month = int(month_str)
+
+            if menu_opt == 1:
+                # Delete Expense of one month
+                delete_sub_sub_menu()
+                sub_sub_menu_opt = input('Enter your option: ')
+                # Validate option
+                sub_sub_menu_opt = int(sub_sub_menu_opt)
+
+                if sub_sub_menu_opt == 0:
+                    # Delete Expenses of a month of ALL categories
+                    for categ in categories:
+                        exp_months[month - 1][categ] = 0
+
+                    print(exp_months[month - 1])
+
+                elif sub_sub_menu_opt == 1:
+                    # Delete Expense of a month of ONE category
+                    while True:
+                        print(f'\n{", ".join(categories)}')
+                        print('are the categories present.\n')
+                        categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
+                        # validate name of the category
+                        if categ_name in categories:
+                            print('\nData is valid!\n')
+                            break
+                        else:
+                            print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
+
+                    exp_months[month - 1][categ_name] = 0
+                    print(exp_months[month - 1])
+
+                else:
+                    pass
+
+            elif menu_opt == 2:
+                # Delete Income of one month
+                exp_months[month - 1]['income'] = 0
+                print(exp_months[month - 1].loc[:, 'days':'income'])
+                print(f'\nIncome of {month - 1} deleted successfully!')
+
+        elif sub_menu_opt == 1:
+            # Delete Expense or Income of the year
+            if menu_opt == 1:
+                # Delete Expense of the year
+                delete_sub_sub_menu()
+                sub_sub_menu_opt = input('Enter your option: ')
+                # Validate menu option
+                sub_sub_menu_opt = int(sub_sub_menu_opt)
+
+                if sub_sub_menu_opt == 0:
+                    # Delete Expenses of the whole year of ALL categories
+                    for month in range(len(exp_months)):
+                        for categ in categories:
+                            exp_months[month][categ] = 0
+
+                    print(
+                        'Expense of the whole year of ALL categories deleted successfully.')
+
+                elif sub_sub_menu_opt == 1:
+                    # Delete Expense of the whole year of ONE category
+                    while True:
+                        print(f'\n{", ".join(categories)}')
+                        print('are the categories present.\n')
+
+                        categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
+                        # validate name of the category
+                        if categ_name in categories:
+                            print('\nData is valid!\n')
+                            break
+                        else:
+                            print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
+
+                    for month in range(len(exp_months)):
+                        exp_months[month][categ_name] = 0
+
+                    print(
+                        f'Expense of the whole year of the category {categ_name} deleted successfully.')
+
+                else:
+                    # Go back
+                    pass
+
+            else:
+                # Delete Income of the year
+                for month in range(len(exp_months)):
+                    exp_months[month]['income'] = 0
+
+                print(exp_months[7])
+                print('Expense of the whole year deleted successfully.')
+
+        else:
+            # Go back
+            pass
+
+
 def main():
     """
     Main function from which the Expense book runs
@@ -640,6 +825,7 @@ def main():
 
         elif main_menu_opt == 6:
             print('\n--------------- DELETE EXPENSE BOOK --------------\n')
+            del_exp_book()
 
         else:
             print('\nGoodbye.\n')
