@@ -299,7 +299,7 @@ def validate_numb_float(str_item, num_min, num_max):
     Validates data (float number) raising a ValueError if the input is not a number or in the range provided in the argument.
     """
     try:
-        if float(str_item) == False:
+        if not float(str_item):
             raise ValueError('the input is not allowed')
         elif float(str_item) <= num_min or float(str_item) >= num_max:
             raise ValueError('value out of range')
@@ -319,12 +319,12 @@ def validate_date(date_str):
     try:
         if len(date_str) != 5:
             raise ValueError('a number or "/" missing in the input')
-        elif date_str[:2].isnumeric() == False:
+        elif not date_str[:2].isnumeric():
             raise ValueError('the "DD" numbers are not allowed')
-        elif date_str[3:].isnumeric() == False:
+        elif not date_str[3:].isnumeric():
             raise ValueError('the "MM" numbers are not allowed')
-        elif int(date_str[:2]) < 1 or int(date_str[:2]) > days_in_month(2023,int(date_str[3:])):
-            raise ValueError(f'"DD" out of range. This month has {days_in_month(2023,int(date_str[3:]))} days')
+        elif int(date_str[:2]) < 1 or int(date_str[:2]) > days_in_month(2023, int(date_str[3:])):
+            raise ValueError(f'"DD" out of range. This month has {days_in_month(2023, int(date_str[3:]))} days')
         elif int(date_str[3:]) < 1 or int(date_str[3:]) > 12:
             raise ValueError('"MM" out of range')
         elif date_str[2] != "/":
@@ -754,10 +754,14 @@ def sub_menu_print():
     global categories, exp_months
 
     while True:
-        show_menu()
-        menu_opt = input('Enter your option: ')
-        # validate option (calcs_menu)
-        menu_opt = int(menu_opt)
+        while True:
+            show_menu()
+            menu_opt = input('Enter your option: ')
+            # validate option (calcs_menu)
+            if validate_numb_int(menu_opt,0,2):
+                print('\nData is valid!\n')
+                menu_opt = int(menu_opt)
+                break
 
         if menu_opt == 2:
             # Go Back
@@ -769,17 +773,24 @@ def sub_menu_print():
 
             menu_opt_str = numb_selection_to_string(menu_opt, 'show')
 
-            show_sub_menu(menu_opt_str)
-            sub_menu_opt = input('Enter your option: ')
-            #  validate option (calcs_sub_menu)
-            sub_menu_opt = int(sub_menu_opt)
+            while True:
+                show_sub_menu(menu_opt_str)
+                sub_menu_opt = input('Enter your option: ')
+                #  validate option (calcs_sub_menu)
+                if validate_numb_int(sub_menu_opt, 0, 2):
+                    print('\nData is valid!\n')
+                    sub_menu_opt = int(sub_menu_opt)
+                    break
 
             if sub_menu_opt == 0:
                 # Expense or Income of one month
-
-                month_str = input(f'\nEnter the month of {menu_opt_str} (MM): ')
-                # Validate month
-                month = int(month_str)
+                while True:
+                    month_str = input(f'\nEnter the month of {menu_opt_str} (MM): ')
+                    # Validate month
+                    if validate_date_just_month(month_str):
+                        print('\nData is valid!\n')
+                        month = int(month_str)
+                        break
 
                 if menu_opt == 0:
                     # Expense of one month
