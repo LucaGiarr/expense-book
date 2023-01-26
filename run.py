@@ -511,6 +511,10 @@ def main():
 
         elif main_menu_opt == 3:
             print('\n------------------- SHOW LIST --------------------\n')
+            if len(categories) == 0:
+                print('No categories are present.')
+            else:
+                print(f'The categories present are:\n{" ,".join(categories)}')
 
         elif main_menu_opt == 4:
             print('\n------------------ CALCULATIONS ------------------')
