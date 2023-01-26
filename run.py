@@ -1019,9 +1019,13 @@ def main():
     month_expense()
 
     while True:
-        main_menu()
-        main_menu_opt = input('Enter your option: ')
-        main_menu_opt = int(main_menu_opt)
+        while True:
+            main_menu()
+            main_menu_opt = input('Enter your option: ')
+            # Validate main menu option
+            if validate_numb_int(main_menu_opt, 0, 7):
+                main_menu_opt = int(main_menu_opt)
+                break
 
         if main_menu_opt == 0:
             print('\n------------ MENU ADD/EDIT CATEGORIES ------------\n')
