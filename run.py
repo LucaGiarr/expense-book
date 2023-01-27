@@ -232,7 +232,10 @@ def date_numb_to_text(date_str):
 def days_in_month(y, m):
     """
     Returns the number of days in a month
-    https://www.tutorialspoint.com/number-of-days-in-a-month-in-python#:~:text=Practical%20Data%20Science%20using%20Python&text=Suppose%20we%20have%20one%20year,then%20the%20result%20is%2029.&text=if%20m%20is%20in%20the,31%2C%20otherwise%2C%20return%2030.
+    https://www.tutorialspoint.com/number-of-days-in-a-month-in-python#:
+    ~:text=Practical%20Data%20Science%20using%20Python&text=
+    Suppose%20we%20have%20one%20year,then%20the%20result%20is%2029.
+    &text=if%20m%20is%20in%20the,31%2C%20otherwise%2C%20return%2030.
     """
     leap = 0
     if y % 400 == 0:
@@ -284,7 +287,7 @@ def validate_categ_strg(categ_list, remaining_categ):
             raise ValueError('there is a "." in a category name')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.')
+        print(f'Invalid data: {e}, please try again.\n')
         return False
 
     return True
@@ -418,12 +421,12 @@ def add_edit_delete_categories(sub_menu_option):
             print(
                 f'Insert max {remaining_categ} '
                 f'categories separated by a comma and with no spaces.')
-            print('Example: restaurant,supermarket,bills,investments,other \n')
-            print(f'{categ_present}')
-            print('are the categories present.\n')
+            print('Example: restaurant,supermarket,bills,investments,other')
+            print('\nThe categories present are:')
+            print(f'{categ_present}\n')
 
             categ_items = str.lower(
-                input('Enter your categories of the expenses here: \n'))
+                input('Enter your categories of the expenses here: '))
 
             categ_list = categ_items.split(',')
 
@@ -437,11 +440,13 @@ def add_edit_delete_categories(sub_menu_option):
             for ind in range(len(exp_months)):
                 exp_months[ind][categ] = 0
 
+        print(f'{categ} added successfully to the categories!')
+
     elif sub_menu_option == 1 or sub_menu_option == 2:
 
         while True:
-            print(f'{categ_present}')
-            print('are the categories present.\n')
+            print('\nThe categories present are:')
+            print(f'{categ_present}\n')
 
             sub_menu_opt_str = numb_selection_to_string(
                 sub_menu_option, 'categories')
@@ -454,7 +459,7 @@ def add_edit_delete_categories(sub_menu_option):
             if categ_already_present:
                 break
             else:
-                print('Category name not present.\n')
+                print('Category name not present.')
 
         ind = categories.index(edit_del_str)
         if sub_menu_option == 1:
@@ -477,11 +482,9 @@ def add_edit_delete_categories(sub_menu_option):
             # Apply the changes to the expense DataFrame
             for month in range(len(exp_months)):
                 for item in range(len(categories)):
-                    exp_months[month].columns.values[item +
-                                                     2] = categories[item]
+                    exp_months[month].columns.values[item + 2] =\
+                        categories[item]
 
-            print(exp_months[0])
-            print('\nChanges also applied to the expense DataFrame (rename)\n')
         else:
             # Delete one category
             categories.pop(ind)
@@ -491,12 +494,9 @@ def add_edit_delete_categories(sub_menu_option):
                 exp_months[month] = exp_months[month].drop(
                     edit_del_str, axis=1)
 
-            print(exp_months[11])
-
-            print('\nChanges also applied to the expense DataFrame (delete)\n')
-
         print(f'Category {sub_menu_opt_str}d successfully!\n')
-        print(f'The categories present are:\n{", ".join(categories)}\n')
+        print('The categories present are:')
+        print(f'{", ".join(categories)}\n')
 
 
 def sub_menu_categories():
@@ -520,8 +520,8 @@ def sub_menu_categories():
 
             add_edit_delete_categories(categories_menu_opt)
 
-            print(f'\n{", ".join(categories)}')
-            print('are the categories present.\n')
+            print('\nThe categories present are:')
+            print(f'{", ".join(categories)}\n')
             
         elif categories_menu_opt == 1 or categories_menu_opt == 2:
 
