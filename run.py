@@ -424,7 +424,6 @@ def add_edit_delete_categories(sub_menu_option):
 
             # validate category names
             if validate_categ_strg(categ_list, remaining_categ):
-                # print('\nData Valid!\n')
                 break
 
         for categ in categ_list:
@@ -448,7 +447,6 @@ def add_edit_delete_categories(sub_menu_option):
             # Check if this category is existing
             categ_already_present = edit_del_str in categories
             if categ_already_present:
-                # print('\nData is valid!\n')
                 break
             else:
                 print('Category name not present.\n')
@@ -466,7 +464,6 @@ def add_edit_delete_categories(sub_menu_option):
                 elif validate_strg(new_name_categ) is False:
                     pass
                 else:
-                    # print('\nData is valid!\n')
                     break
 
             categories[ind] = new_name_categ
@@ -509,7 +506,6 @@ def sub_menu_categories():
             categories_menu_opt = input('Enter your option: ')
             # Validate menu option
             if validate_numb_int(categories_menu_opt, 0, 3):
-                # print('\nData is valid!\n')
                 categories_menu_opt = int(categories_menu_opt)
                 break
 
@@ -544,7 +540,6 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         date_str = input(f'\nEnter the date of {income_expense_str} (DD/MM): ')
         # validate date
         if validate_date(date_str):
-            print('\nData is valid!')
             break
 
     if income_expense_str == 'income':
@@ -557,7 +552,6 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
                 f'\nEnter the category name of which you want to {option_str} the {income_expense_str}: ')
 
             if categ_name in categories:
-                print('\nData is valid!\n')
                 break
             else:
                 print(
@@ -573,7 +567,6 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
             # validate expense (number)
             max_val = 999999999999
             if validate_numb_float(exp_inc_str, 0, max_val):
-                print('\nData is valid!\n')
                 break
 
         exp_inc_val = round(float(exp_inc_str), 3)
@@ -617,7 +610,6 @@ def sub_menu_exp_income(income_expense_str):
             menu_opt = input('Enter your option: ')
             # Validate menu option
             if validate_numb_int(menu_opt, 0, 3):
-                print('Data is valid!')
                 menu_opt = int(menu_opt)
                 break
 
@@ -645,7 +637,6 @@ def sub_menu_calcs():
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
             if validate_numb_int(menu_opt, 0, 3):
-                # print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
 
@@ -659,9 +650,8 @@ def sub_menu_calcs():
             while True:
                 calcs_sub_menu()
                 sub_menu_opt = input('Enter your option: ')
-                #  validate option (calcs_sub_menu)
+                #  validate menu option
                 if validate_numb_int(sub_menu_opt, 0, 2):
-                    # print('\nData is valid!\n')
                     sub_menu_opt = int(sub_menu_opt)
                     break
 
@@ -675,7 +665,6 @@ def sub_menu_calcs():
                     date_str = input(f'\nEnter the date of expense (DD/MM): ')
                     # validate date
                     if validate_date(date_str):
-                        # print('\nData is valid!\n')
                         break
 
                 date = date_str.split('/')
@@ -689,7 +678,6 @@ def sub_menu_calcs():
                     categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
-                        # print('\nData is valid!\n')
                         break
                     else:
                         print(f'{categ_name} is not in categories.')
@@ -717,7 +705,6 @@ def sub_menu_calcs():
                     date_str = input(f'\nEnter the month of expense (MM): ')
                     # validate date
                     if validate_date_just_month(date_str):
-                        # print('\nData is valid!\n')
                         month = int(date_str)
                         break
 
@@ -728,7 +715,6 @@ def sub_menu_calcs():
                     categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
-                        # print('\nData is valid!\n')
                         break
                     else:
                         print(f'{categ_name} is not in categories.\n')
@@ -758,7 +744,6 @@ def sub_menu_calcs():
                     categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
-                        # print('\nData is valid!\n')
                         break
                     else:
                         print(f'{categ_name} is not in categories.\n')
@@ -801,7 +786,6 @@ def sub_menu_print():
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
             if validate_numb_int(menu_opt, 0, 2):
-                print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
 
@@ -820,7 +804,6 @@ def sub_menu_print():
                 sub_menu_opt = input('Enter your option: ')
                 #  validate option (calcs_sub_menu)
                 if validate_numb_int(sub_menu_opt, 0, 2):
-                    print('\nData is valid!\n')
                     sub_menu_opt = int(sub_menu_opt)
                     break
 
@@ -830,7 +813,6 @@ def sub_menu_print():
                     month_str = input(f'\nEnter the month of {menu_opt_str} (MM): ')
                     # Validate month
                     if validate_date_just_month(month_str):
-                        print('\nData is valid!\n')
                         month = int(month_str)
                         break
 
@@ -851,7 +833,6 @@ def sub_menu_print():
                     for categ in categories:
                         for month in range(len(exp_months)):
                             res = exp_months[month][categ].sum()
-
                             result.at[month + 1, categ] = res
 
                     exp_list = result.sum().tolist()
@@ -867,7 +848,6 @@ def sub_menu_print():
                     result = pd.DataFrame()
                     for month in range(len(exp_months)):
                         res = exp_months[month]['income'].sum()
-
                         result.at[month + 1, 'income'] = res
 
                     inc_year = result.sum().tolist()
@@ -892,7 +872,6 @@ def del_exp_book():
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
             if validate_numb_int(menu_opt, 0, 3):
-                print('\nData is valid!\n')
                 menu_opt = int(menu_opt)
                 break
 
@@ -911,7 +890,6 @@ def del_exp_book():
                     sub_menu_opt_low = sub_menu_opt.lower()
                     # validate yes or no
                     if sub_menu_opt_low == 'y' or sub_menu_opt == 'n':
-                        print('\nData is valid!\n')
                         sub_menu_opt = sub_menu_opt.upper()
                         break
                     else:
@@ -937,7 +915,6 @@ def del_exp_book():
                 sub_menu_opt = input('Enter your option: ')
                 #  validate menu option
                 if validate_numb_int(sub_menu_opt, 0, 2):
-                    print('\nData is valid!\n')
                     sub_menu_opt = int(sub_menu_opt)
                     break
 
@@ -947,7 +924,6 @@ def del_exp_book():
                 month_str = input(f'\nEnter the month you want to delete the {menu_opt_str} (MM): ')
                 # Validate month
                 if validate_date_just_month(month_str):
-                    print('\nData is valid!\n')
                     month = int(month_str)
                     break
 
@@ -958,7 +934,6 @@ def del_exp_book():
                     sub_sub_menu_opt = input('Enter your option: ')
                     # Validate option
                     if validate_numb_int(sub_sub_menu_opt, 0, 2):
-                        print('\nData is valid!\n')
                         sub_sub_menu_opt = int(sub_sub_menu_opt)
                         break
 
@@ -977,7 +952,6 @@ def del_exp_book():
                         categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
                         # validate name of the category
                         if categ_name in categories:
-                            print('\nData is valid!\n')
                             break
                         else:
                             print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
@@ -1003,7 +977,6 @@ def del_exp_book():
                     sub_sub_menu_opt = input('Enter your option: ')
                     # Validate menu option
                     if validate_numb_int(sub_sub_menu_opt, 0, 2):
-                        print('\nData is valid!\n')
                         sub_sub_menu_opt = int(sub_sub_menu_opt)
                         break
 
@@ -1025,7 +998,6 @@ def del_exp_book():
                         categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
                         # validate name of the category
                         if categ_name in categories:
-                            print('\nData is valid!\n')
                             break
                         else:
                             print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
