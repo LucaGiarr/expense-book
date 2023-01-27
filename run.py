@@ -253,7 +253,8 @@ def days_in_month(y, m):
 def validate_categ_strg(categ_list, remaining_categ):
     """
     Validates category names strings (used in the categories function)
-    Inside the try: the total number of categories < 10, no spaces between category names
+    Inside the try: the total number of categories < 10,
+    no spaces between category names
     Numbers allowed as category names.
     """
     # Global variables
@@ -277,7 +278,8 @@ def validate_categ_strg(categ_list, remaining_categ):
         elif len(categories) > 0 and True in item_present:
             raise ValueError('category name already present')
         elif True in space_present:
-            raise ValueError('there is a space at the beginning, end or between category names')
+            raise ValueError('there is a space at the beginning, '
+                             'end or between category names')
         elif True in dot_present:
             raise ValueError('there is a "." in a category name')
 
@@ -290,7 +292,8 @@ def validate_categ_strg(categ_list, remaining_categ):
 
 def validate_strg(str_item):
     """
-    Validates data (string) raising a ValueError if a dot, comma or a space is present in a category name
+    Validates data (string) raising a ValueError if a dot,
+    comma or a space is present in a category name
     """
     try:
         if ',' in str_item:
@@ -311,7 +314,9 @@ def validate_strg(str_item):
 
 def validate_numb_int(str_item, num_min, num_max):
     """
-    Validates data (number) raising a ValueError if the input is not a number or in the range provided in the argument.
+    Validates data (number) raising a
+    ValueError if the input is not a number
+    or in the range provided in the argument.
     """
     try:
         if not str_item.isdecimal():
@@ -329,7 +334,8 @@ def validate_numb_int(str_item, num_min, num_max):
 def validate_numb_float(str_item, num_min, num_max):
     """
     Validates data (float number) raising a
-    ValueError if the input is not a number or in the range provided in the argument.
+    ValueError if the input is not a number
+    or in the range provided in the argument.
     """
     try:
         if not float(str_item):
@@ -346,7 +352,8 @@ def validate_numb_float(str_item, num_min, num_max):
 
 def validate_date(date_str):
     """
-    Validates data (date) raising a ValueError if the input is not as shown in the input.
+    Validates data (date) raising a
+    ValueError if the input is not as shown in the input.
     """
 
     try:
@@ -356,8 +363,10 @@ def validate_date(date_str):
             raise ValueError('the "DD" numbers are not allowed')
         elif not date_str[3:].isnumeric():
             raise ValueError('the "MM" numbers are not allowed')
-        elif int(date_str[:2]) < 1 or int(date_str[:2]) > days_in_month(2023, int(date_str[3:])):
-            raise ValueError(f'"DD" out of range. This month has {days_in_month(2023, int(date_str[3:]))} days')
+        elif int(date_str[:2]) < 1 or \
+                int(date_str[:2]) > days_in_month(2023, int(date_str[3:])):
+            raise ValueError(f'"DD" out of range. This month has '
+                             f'{days_in_month(2023, int(date_str[3:]))} days')
         elif int(date_str[3:]) < 1 or int(date_str[3:]) > 12:
             raise ValueError('"MM" out of range')
         elif date_str[2] != "/":
@@ -373,7 +382,7 @@ def validate_date(date_str):
 def validate_date_just_month(date_str):
     """
     Validates data (just month) raising a
-    ValueError if the input from the user is not as suggested of the text printed in the terminal.
+    ValueError if the input from the user is not as suggested.
     """
     try:
         if len(date_str) != 2:
@@ -407,7 +416,8 @@ def add_edit_delete_categories(sub_menu_option):
         while True:
             remaining_categ = 10 - len(categories)
             print(
-                f'Insert max {remaining_categ} categories separated by a comma and with no spaces.')
+                f'Insert max {remaining_categ} '
+                f'categories separated by a comma and with no spaces.')
             print('Example: restaurant,supermarket,bills,investments,other \n')
             print(f'{categ_present}')
             print('are the categories present.\n')
@@ -451,7 +461,8 @@ def add_edit_delete_categories(sub_menu_option):
             # Rename one category
             while True:
                 new_name_categ = input(
-                    'Insert the new category name (insert just one category name): ')
+                    'Insert the new category name '
+                    '(insert just one category name): ')
                 # validate category
                 if new_name_categ in categories:
                     print('\nCategory name already present.')
@@ -544,13 +555,15 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         while True:
             print(f'The categories present are:\n{" ,".join(categories)}')
             categ_name = input(
-                f'\nEnter the category name of which you want to {option_str} the {income_expense_str}: ')
+                f'\nEnter the category name of which you want to '
+                f'{option_str} the {income_expense_str}: ')
 
             if categ_name in categories:
                 break
             else:
                 print(
-                    f'{categ_name} is not in categories. Please enter a valid category name.\n')
+                    f'{categ_name} is not in categories. '
+                    f'Please enter a valid category name.\n')
 
         categ_column = categories.index(categ_name)
 
@@ -558,7 +571,8 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         exp_inc_val = 0
     else:
         while True:
-            exp_inc_str = input(f'\nEnter the new value of the {income_expense_str}: ')
+            exp_inc_str = input(
+                f'\nEnter the new value of the {income_expense_str}: ')
             # validate expense (number)
             max_val = 999999999999
             if validate_numb_float(exp_inc_str, 0, max_val):
@@ -587,7 +601,8 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
 
     # Print confirmation of expense/income added
     print(f'\n{exp_inc_val}euro')
-    print(f'{option_str}ed successfully to the category {categ_name} on the day {date_str}\n')
+    print(f'{option_str}ed successfully to the category {categ_name}'
+          f' on the day {date_str}\n')
 
     print(exp_months[month-1])
 
@@ -621,7 +636,8 @@ def sub_menu_exp_income(income_expense_str):
 # Calculations
 def sub_menu_calcs():
     """
-    Does calculations with the expenses and prints the values the user chooses to see
+    Does calculations with the expenses and
+    prints the values the user chooses to see
     """
     # Global variables
     global categories, exp_months
@@ -669,8 +685,10 @@ def sub_menu_calcs():
             if sub_menu_opt == 0:
                 # Spent in 1 day in 1 category
                 while True:
-                    print(f'\nThe categories present are:\n{" ,".join(categories)}')
-                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    print('\nThe categories present are:')
+                    print(f'{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of '
+                                       f'which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
                         break
@@ -679,7 +697,8 @@ def sub_menu_calcs():
 
                 result = exp_months[month - 1].at[day - 1, categ_name]
                 month_text = date_numb_to_text(str(month))
-                print(f'\nThe {day} of {month_text} you spent {result} euro in the category {categ_name}.')
+                print(f'\nThe {day} of {month_text} you spent {result} euro '
+                      f'in the category {categ_name}.')
 
             elif sub_menu_opt == 1:
                 # Spent in 1 day in all categories
@@ -706,8 +725,10 @@ def sub_menu_calcs():
             if sub_menu_opt == 0:
                 # Spent in 1 month in 1 category
                 while True:
-                    print(f'The categories present are:\n{" ,".join(categories)}')
-                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    print('The categories present are:')
+                    print(f'{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of '
+                                       f'which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
                         break
@@ -717,7 +738,8 @@ def sub_menu_calcs():
                 result = exp_months[month - 1][categ_name].sum()
                 month_text = date_numb_to_text(date_str)
                 print(
-                    f'\nIn {month_text} you spent {result} euro in the category {categ_name}.')
+                    f'\nIn {month_text} you spent {result} euro'
+                    f' in the category {categ_name}.')
 
             elif sub_menu_opt == 1:
                 # Spent in 1 month in all categories
@@ -735,8 +757,10 @@ def sub_menu_calcs():
             if sub_menu_opt == 0:
                 # Spent in 1 year in 1 category
                 while True:
-                    print(f'The categories present are:\n{" ,".join(categories)}')
-                    categ_name = input(f'\nEnter the category name of which you want to find the expense: ')
+                    print('The categories present are:')
+                    print(f'{" ,".join(categories)}')
+                    categ_name = input(f'\nEnter the category name of '
+                                       f'which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
                         break
@@ -748,7 +772,8 @@ def sub_menu_calcs():
                     result += exp_months[month][categ_name].sum()
 
                 print(
-                    f'\nIn the whole 2023 you spent {result} euro in the category {categ_name}.')
+                    f'\nIn the whole 2023 you spent {result} euro '
+                    f'in the category {categ_name}.')
 
             elif sub_menu_opt == 1:
                 # Spent in 1 year in all categories
@@ -805,7 +830,8 @@ def sub_menu_print():
             if sub_menu_opt == 0:
                 # Expense or Income of one month
                 while True:
-                    month_str = input(f'\nEnter the month of {menu_opt_str} (MM): ')
+                    month_str = input(
+                        f'\nEnter the month of {menu_opt_str} (MM): ')
                     # Validate month
                     if validate_date_just_month(month_str):
                         month = int(month_str)
@@ -877,11 +903,12 @@ def del_exp_book():
             if len(categories) == 0:
                 print('There are no categories present.')
             else:
-                print(
-                    'Are you sure you want to delete all the categories included the expenses and income?\n')
+                print('Are you sure you want to delete all the categories '
+                      'included the expenses and income?\n')
                 while True:
                     sub_menu_opt = input('Enter your option (Y/N): ')
-                    # convert the input to lower case to be able to validate the input (validation is case-sensitive)
+                    # convert the input to lower case to be able to
+                    # validate the input (validation is case-sensitive)
                     sub_menu_opt_low = sub_menu_opt.lower()
                     # validate yes or no
                     if sub_menu_opt_low == 'y' or sub_menu_opt == 'n':
@@ -916,7 +943,8 @@ def del_exp_book():
         if sub_menu_opt == 0:
             # Delete Expense or Income of one month
             while True:
-                month_str = input(f'\nEnter the month you want to delete the {menu_opt_str} (MM): ')
+                month_str = input(f'\nEnter the month you want to '
+                                  f'delete the {menu_opt_str} (MM): ')
                 # Validate month
                 if validate_date_just_month(month_str):
                     month = int(month_str)
@@ -944,12 +972,14 @@ def del_exp_book():
                     while True:
                         print(f'\n{", ".join(categories)}')
                         print('are the categories present.\n')
-                        categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
+                        categ_name = input(f'\nEnter the category name of which'
+                                           f' you want to delete the expense: ')
                         # validate name of the category
                         if categ_name in categories:
                             break
                         else:
-                            print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
+                            print(f'{categ_name} is not in categories. '
+                                  f'Please enter a valid category name.\n')
 
                     exp_months[month - 1][categ_name] = 0
                     print(exp_months[month - 1])
@@ -981,8 +1011,8 @@ def del_exp_book():
                         for categ in categories:
                             exp_months[month][categ] = 0
 
-                    print(
-                        'Expense of the whole year of ALL categories deleted successfully.')
+                    print('Expense of the whole year of '
+                          'ALL categories deleted successfully.')
 
                 elif sub_sub_menu_opt == 1:
                     # Delete Expense of the whole year of ONE category
@@ -990,18 +1020,20 @@ def del_exp_book():
                         print(f'\n{", ".join(categories)}')
                         print('are the categories present.\n')
 
-                        categ_name = input(f'\nEnter the category name of which you want to delete the expense: ')
+                        categ_name = input(f'\nEnter the category name of which'
+                                           f' you want to delete the expense: ')
                         # validate name of the category
                         if categ_name in categories:
                             break
                         else:
-                            print(f'{categ_name} is not in categories. Please enter a valid category name.\n')
+                            print(f'{categ_name} is not in categories. '
+                                  f'Please enter a valid category name.\n')
 
                     for month in range(len(exp_months)):
                         exp_months[month][categ_name] = 0
 
-                    print(
-                        f'Expense of the whole year of the category {categ_name} deleted successfully.')
+                    print(f'Expense of the whole year of the category '
+                          f'{categ_name} deleted successfully.')
 
                 else:
                     # Go back
