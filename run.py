@@ -20,34 +20,23 @@ def month_expense():
     base_categ = ['days', 'income', 'ciao', 'come', 'bene']
     # to here
 
-    num_rows = 31
-    months = [0, 2, 4, 6, 7, 9, 11]
-    for ind in months:
+    months_31_days = [0, 2, 4, 6, 7, 9, 11]
+    months_30_days = [3, 5, 8, 10]
+
+    for ind in range(12):
+        if ind in months_31_days:
+            num_rows = 31
+        elif ind in months_30_days:
+            num_rows = 30
+        else:
+            num_rows = 28
+
         df = pd.DataFrame(
             0, index=range(num_rows), columns=range(len(base_categ)))
         df.columns = base_categ
         for day in range(num_rows):
             df.iat[day, 0] = day + 1
         exp_months[ind] = df
-
-    # months with 30 days
-    num_rows = 30
-    months = [1, 3, 5, 8, 10]
-    for ind in months:
-        df = pd.DataFrame(
-            0, index=range(num_rows), columns=range(len(base_categ)))
-        df.columns = base_categ
-        for day in range(num_rows):
-            df.iat[day, 0] = day + 1
-        exp_months[ind] = df
-
-    # month with 28 days
-    num_rows = 28
-    exp_months[1] = pd.DataFrame(
-        0, index=range(num_rows), columns=range(len(base_categ)))
-    exp_months[1].columns = base_categ
-    for day in range(num_rows):
-        exp_months[1].iat[day, 0] = day + 1
 
 
 # ------------ Menus ------------
