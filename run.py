@@ -62,23 +62,23 @@ def add_edit_menu(strg):
     Shows the menu of the add/edit Categories, Expenses and Income
     """
     # Global variables
-    # global categories
+    global categories
 
     strg = strg.capitalize()
 
     cat_length = len(categories)
     if strg == 'categories' and cat_length == 10:
         print('Are present 10 categories. You can:')
-        print(f'1 - Rename {strg}')
+        print(f'\n1 - Rename {strg}')
         print(f'2 - Delete {strg}')
         print('3 - Go Back\n')
     elif strg == 'categories':
-        print(f'0 - Add {strg}')
+        print(f'\n0 - Add {strg}')
         print(f'1 - Rename {strg}')
         print(f'2 - Delete {strg}')
         print('3 - Go Back\n')
     else:
-        print(f'0 - Add {strg}')
+        print(f'\n0 - Add {strg}')
         print(f'1 - Edit {strg}')
         print(f'2 - Delete {strg}')
         print('3 - Go Back\n')
@@ -118,7 +118,7 @@ def show_sub_menu(opt_str):
     """
     Shows the sub-menu of Print to Terminal
     """
-    print(f'\n0 - {opt_str} of a month')
+    print(f'0 - {opt_str} of a month')
     print(f'1 - {opt_str} of the year')
     print('2 - Go Back\n')
 
@@ -328,7 +328,7 @@ def validate_numb_int(str_item, num_min, num_max):
             raise ValueError('option out of range')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}, please try again.')
         return False
 
     return True
@@ -648,9 +648,9 @@ def sub_menu_calcs():
             break
         else:
             menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
-            print(f'\nSpent in {menu_opt_str}:')
 
             while True:
+                print(f'\n/// Spent in {menu_opt_str} ///')
                 calcs_sub_menu()
                 sub_menu_opt = input('Enter your option: ')
                 #  validate menu option
@@ -665,7 +665,7 @@ def sub_menu_calcs():
                 pass
             else:
                 while True:
-                    date_str = input(f'\nEnter the date of expense (DD/MM): ')
+                    date_str = input('Enter the date of expense (DD/MM): ')
                     # validate date
                     if validate_date(date_str):
                         break
@@ -679,7 +679,7 @@ def sub_menu_calcs():
                 while True:
                     print('\nThe categories present are:')
                     print(f'{" ,".join(categories)}')
-                    categ_name = input(f'\nEnter the category name of '
+                    categ_name = input('\nEnter the category name of '
                                        f'which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
@@ -688,7 +688,7 @@ def sub_menu_calcs():
                         print(f'{categ_name} is not in categories.')
 
                 result = exp_months[month - 1].at[day - 1, categ_name]
-                month_text = date_numb_to_text(str(month))
+                month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro '
                       f'in the category {categ_name}.')
 
@@ -698,7 +698,7 @@ def sub_menu_calcs():
                 for item in categories:
                     result += (exp_months[month - 1].at[day - 1, item])
 
-                month_text = date_numb_to_text(str(month))
+                month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro.')
 
         elif menu_opt == 1:
@@ -708,7 +708,7 @@ def sub_menu_calcs():
                 pass
             else:
                 while True:
-                    date_str = input(f'\nEnter the month of expense (MM): ')
+                    date_str = input('Enter the month of expense (MM): ')
                     # validate date
                     if validate_date_just_month(date_str):
                         month = int(date_str)
@@ -717,15 +717,15 @@ def sub_menu_calcs():
             if sub_menu_opt == 0:
                 # Spent in 1 month in 1 category
                 while True:
-                    print('The categories present are:')
+                    print('\nThe categories present are:')
                     print(f'{" ,".join(categories)}')
-                    categ_name = input(f'\nEnter the category name of '
+                    categ_name = input('\nEnter the category name of '
                                        f'which you want to find the expense: ')
                     # validate name of the category
                     if categ_name in categories:
                         break
                     else:
-                        print(f'{categ_name} is not in categories.\n')
+                        print(f'{categ_name} is not in categories.')
 
                 result = exp_months[month - 1][categ_name].sum()
                 month_text = date_numb_to_text(date_str)
@@ -812,6 +812,7 @@ def sub_menu_print():
             menu_opt_str = numb_selection_to_string(menu_opt, 'show')
 
             while True:
+                print(f'\n/// {menu_opt_str} ///')
                 show_sub_menu(menu_opt_str)
                 sub_menu_opt = input('Enter your option: ')
                 #  validate option (calcs_sub_menu)
@@ -823,7 +824,7 @@ def sub_menu_print():
                 # Expense or Income of one month
                 while True:
                     month_str = input(
-                        f'\nEnter the month of {menu_opt_str} (MM): ')
+                        f'Enter the month of {menu_opt_str} (MM): ')
                     # Validate month
                     if validate_date_just_month(month_str):
                         month = int(month_str)
@@ -833,7 +834,7 @@ def sub_menu_print():
                     # Expense of one month
                     df_exp = exp_months[month - 1]
                     del df_exp['income']
-                    print(df_exp)
+                    print(f'\n{df_exp}')
                 else:
                     # Income of one month
                     print(exp_months[month - 1].loc[:, 'days':'income'])
@@ -1080,23 +1081,23 @@ def main():
                 break
 
         if main_menu_opt == 0:
-            print('\n------------ MENU ADD/EDIT CATEGORIES ------------\n')
+            print('\n------------ MENU ADD/EDIT CATEGORIES ------------')
             sub_menu_categories()
 
         elif main_menu_opt == 1:
-            print('\n------------- MENU ADD/EDIT EXPENSES -------------\n')
+            print('\n------------- MENU ADD/EDIT EXPENSES -------------')
             sub_menu_exp_income('expense')
 
         elif main_menu_opt == 2:
-            print('\n-------------- MENU ADD/EDIT INCOME --------------\n')
+            print('\n-------------- MENU ADD/EDIT INCOME --------------')
             sub_menu_exp_income('income')
 
         elif main_menu_opt == 3:
-            print('\n------------------- SHOW LIST --------------------\n')
+            print('\n------------------- SHOW LIST --------------------')
             if len(categories) == 0:
                 print('No categories are present.')
             else:
-                print(f'The categories present are:\n{" ,".join(categories)}')
+                print(f'The categories present are:\n{", ".join(categories)}')
 
         elif main_menu_opt == 4:
             print('\n------------------ CALCULATIONS ------------------')
@@ -1107,7 +1108,7 @@ def main():
             sub_menu_print()
 
         elif main_menu_opt == 6:
-            print('\n--------------- DELETE EXPENSE BOOK --------------\n')
+            print('\n--------------- DELETE EXPENSE BOOK --------------')
             del_exp_book()
 
         else:
