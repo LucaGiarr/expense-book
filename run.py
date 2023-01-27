@@ -309,7 +309,7 @@ def validate_strg(str_item):
             raise ValueError('"-" not allowed in the category name')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}, please try again.')
         return False
 
     return True
@@ -421,8 +421,8 @@ def add_edit_delete_categories(sub_menu_option):
             print(
                 f'Insert max {remaining_categ} '
                 f'categories separated by a comma and with no spaces.')
-            print('Example: restaurant,supermarket,bills,investments,other')
-            print('\nThe categories present are:')
+            print('Example: restaurant,supermarket,bills,investments,other\n')
+            print('The categories present are:')
             print(f'{categ_present}\n')
 
             categ_items = str.lower(
@@ -440,12 +440,12 @@ def add_edit_delete_categories(sub_menu_option):
             for ind in range(len(exp_months)):
                 exp_months[ind][categ] = 0
 
-        print(f'{categ} added successfully to the categories!')
+        print(f'{categ} added successfully to the categories!\n')
 
     elif sub_menu_option == 1 or sub_menu_option == 2:
 
         while True:
-            print('\nThe categories present are:')
+            print('The categories present are:')
             print(f'{categ_present}\n')
 
             sub_menu_opt_str = numb_selection_to_string(
@@ -459,7 +459,7 @@ def add_edit_delete_categories(sub_menu_option):
             if categ_already_present:
                 break
             else:
-                print('Category name not present.')
+                print('Category name not present.\n')
 
         ind = categories.index(edit_del_str)
         if sub_menu_option == 1:
@@ -533,7 +533,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     global categories, exp_months
 
     while True:
-        date_str = input(f'\nEnter the date of {income_expense_str} (DD/MM): ')
+        date_str = input(f'Enter the date of {income_expense_str} (DD/MM): ')
         # validate date
         if validate_date(date_str):
             break
@@ -543,7 +543,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         categ_column = 0
     else:
         while True:
-            print(f'The categories present are:\n{" ,".join(categories)}')
+            print(f'\nThe categories present are:\n{" ,".join(categories)}')
             categ_name = input(
                 f'\nEnter the category name of which you want to '
                 f'{option_str} the {income_expense_str}: ')
@@ -553,7 +553,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
             else:
                 print(
                     f'{categ_name} is not in categories. '
-                    f'Please enter a valid category name.\n')
+                    f'Please enter a valid category name.')
 
         categ_column = categories.index(categ_name)
 
@@ -562,7 +562,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     else:
         while True:
             exp_inc_str = input(
-                f'\nEnter the new value of the {income_expense_str}: ')
+                f'Enter the new value of the {income_expense_str}: ')
             # validate expense (number)
             max_val = 999999999999
             if validate_numb_float(exp_inc_str, 0, max_val):
@@ -590,11 +590,13 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         exp_months[month-1] = df
 
     # Print confirmation of expense/income added
-    print(f'\n{exp_inc_val}euro')
-    print(f'{option_str}ed successfully to the category {categ_name}'
-          f' on the day {date_str}\n')
-
-    print(exp_months[month-1])
+    month_text = date_numb_to_text(date[1])
+    if option_str == 'delete':
+        print(f'\n{income_expense_str.capitalize()} deleted successfully '
+              f'to the category {categ_name} on the {day} of {month_text}.\n')
+    else:
+        print(f'\n{exp_inc_val} euro {option_str}ed successfully '
+              f'to the category {categ_name} on the {day} of {month_text}.\n')
 
 
 def sub_menu_exp_income(income_expense_str):
@@ -616,7 +618,7 @@ def sub_menu_exp_income(income_expense_str):
         option_str = numb_selection_to_string(menu_opt, income_expense_str)
 
         if menu_opt == 0 or menu_opt == 1 or menu_opt == 2:
-            print(f'\n{option_str.capitalize()} an {income_expense_str}')
+            print(f'\n/// {option_str.capitalize()} an {income_expense_str} ///')
             add_edit_delete_exp_income(income_expense_str, option_str)
 
         else:
