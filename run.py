@@ -495,8 +495,6 @@ def add_edit_delete_categories(sub_menu_option):
                     edit_del_str, axis=1)
 
         print(f'Category {sub_menu_opt_str}d successfully!\n')
-        print('The categories present are:')
-        print(f'{", ".join(categories)}\n')
 
 
 def sub_menu_categories():
@@ -514,24 +512,16 @@ def sub_menu_categories():
             if validate_numb_int(categories_menu_opt, 0, 3):
                 categories_menu_opt = int(categories_menu_opt)
                 break
-
-        if categories_menu_opt == 0:
-            print('\n/// Add a Category ///')
-
-            add_edit_delete_categories(categories_menu_opt)
-
-            print('\nThe categories present are:')
-            print(f'{", ".join(categories)}\n')
-            
-        elif categories_menu_opt == 1 or categories_menu_opt == 2:
-
-            add_edit_delete_categories(categories_menu_opt)
-            print('Edit or delete')
-            
-        elif categories_menu_opt == 3:
+        if categories_menu_opt == 3:
             break
         else:
-            print('\nWrong number! Choose a correct one.\n')
+            sub_menu_opt_str = numb_selection_to_string(
+                categories_menu_opt, 'categories')
+            print(f'\n/// {sub_menu_opt_str.capitalize()} a Category ///')
+            add_edit_delete_categories(categories_menu_opt)
+
+            print('The categories present are:')
+            print(f'{", ".join(categories)}\n')
 
 
 # Expense and Income
