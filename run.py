@@ -832,7 +832,7 @@ def sub_menu_print():
 
                 if menu_opt == 0:
                     # Expense of one month
-                    df_exp = exp_months[month - 1]
+                    df_exp = exp_months[month - 1].copy()
                     del df_exp['income']
                     print(f'\n{df_exp}')
                 else:
