@@ -1,5 +1,17 @@
 import pandas as pd
+import gspread
+from google.oauth2.service_account import Credentials
 
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+]
+
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('expense_book')
 
 # Global variables
 categories = []
@@ -37,6 +49,23 @@ def month_expense():
         for day in range(num_rows):
             df.iat[day, 0] = day + 1
         exp_months[ind] = df
+
+
+# Expense book loaded from spreadsheet
+def month_exp_load():
+    """
+    Loads the monthly expenses from a spreadsheet saved online
+    """
+    months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep',
+              'octob', 'nov', 'dec']
+    for month in range(len(months)):
+        sprsheet = SHEET.worksheet(months[month])
+        ws = sprsheet.get_all_values()
+        col = sprsheet.row_values(1)
+        rows = sprsheet.col_values(1)
+        ws.pop(0)
+        exp_months[month] = pd.DataFrame(ws, index=range(len(rows) - 1),
+                                         columns=col)
 
 
 # ------------ Menus ------------
@@ -250,6 +279,64 @@ def days_in_month(y, m):
     if m in months_31_days:
         return 31
     return 30
+
+
+# Erase and/or Save data in Google sheet
+def erase_save_data(action):
+    """
+    Saves data in a spreadsheet
+    """
+    jan = SHEET.worksheet('jan')
+    feb = SHEET.worksheet('feb')
+    mar = SHEET.worksheet('mar')
+    apr = SHEET.worksheet('apr')
+    may = SHEET.worksheet('may')
+    jun = SHEET.worksheet('jun')
+    jul = SHEET.worksheet('jul')
+    aug = SHEET.worksheet('aug')
+    sep = SHEET.worksheet('sep')
+    octob = SHEET.worksheet('octob')
+    nov = SHEET.worksheet('nov')
+    dec = SHEET.worksheet('dec')
+
+    jan.clear()
+    feb.clear()
+    mar.clear()
+    apr.clear()
+    may.clear()
+    jun.clear()
+    jul.clear()
+    aug.clear()
+    sep.clear()
+    octob.clear()
+    nov.clear()
+    dec.clear()
+
+    if action == 'save':
+        jan.update([exp_months[0].columns.values.tolist()] +
+                   exp_months[0].loc[:].values.tolist())
+        feb.update([exp_months[1].columns.values.tolist()] +
+                   exp_months[1].loc[:].values.tolist())
+        mar.update([exp_months[2].columns.values.tolist()] +
+                   exp_months[2].loc[:].values.tolist())
+        apr.update([exp_months[3].columns.values.tolist()] +
+                   exp_months[3].loc[:].values.tolist())
+        may.update([exp_months[4].columns.values.tolist()] +
+                   exp_months[4].loc[:].values.tolist())
+        jun.update([exp_months[5].columns.values.tolist()] +
+                   exp_months[5].loc[:].values.tolist())
+        jul.update([exp_months[6].columns.values.tolist()] +
+                   exp_months[6].loc[:].values.tolist())
+        aug.update([exp_months[7].columns.values.tolist()] +
+                   exp_months[7].loc[:].values.tolist())
+        sep.update([exp_months[8].columns.values.tolist()] +
+                   exp_months[8].loc[:].values.tolist())
+        octob.update([exp_months[9].columns.values.tolist()] +
+                     exp_months[9].loc[:].values.tolist())
+        nov.update([exp_months[10].columns.values.tolist()] +
+                   exp_months[10].loc[:].values.tolist())
+        dec.update([exp_months[11].columns.values.tolist()] +
+                   exp_months[11].loc[:].values.tolist())
 
 
 # Validation inputs
@@ -1065,17 +1152,35 @@ def main():
     Main function from which the Expense book runs
     """
     # Global variables
-    global categories
+    global categories, exp_months
+
+    # Check if there is existing data saved in the spreadsheet
+    exp_months[0] = SHEET.worksheet('jan')
+    existing_categ = exp_months[0].row_values(1)
+
+    if len(existing_categ) <= 2:
+        print('\n------------------ EXPENSE BOOK ------------------')
+        print('Checking existing data...')
+        print('No data existing.')
+
+        # Generate the monthly expense DataFrame
+        month_expense()
+
+        print(f'\n/// Add a Category ///')
+        add_edit_delete_categories(0)
+    else:
+        print('Loading data...')
+        month_exp_load()
+        categories = existing_categ[2:]
 
     # delete this form here
     # categories = ['ciao', 'come', 'bene']
     # to here
 
     # Generate the monthly expense DataFrame
-    month_expense()
+    # month_expense()
 
     # delete from here
-    # global exp_months
 
     # exp_months[0].iat[0, 2] = 100.2
     # exp_months[0].iat[30, 2] = 1000.75
@@ -1084,12 +1189,9 @@ def main():
     # exp_months[11].iat[30, 2] = 200
     # exp_months[7].iat[24, 1] = 2000.20
     # exp_months[0].iat[10, 1] = 1000.20
-    # to here
+    # exp_months[0].iat[15, 1] = 5000.35
 
-    if len(categories) == 0:
-        print(f'\n/// Add a Category ///')
-        add_edit_delete_categories(0)
-        # print(exp_months[0])
+    # to here
 
     while True:
         while True:
@@ -1132,7 +1234,10 @@ def main():
             del_exp_book()
 
         else:
-            print('\nGoodbye.\n')
+            print('\nUpdating data to the google sheet...')
+            erase_save_data('save')
+            print('Update successful!')
+            print('Goodbye.')
             break
 
 
