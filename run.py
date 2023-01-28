@@ -14,10 +14,10 @@ def month_expense():
     # Global variables
     global exp_months
 
-    # base_categ = ['days', 'income']
+    base_categ = ['days', 'income']
 
     # delete from here
-    base_categ = ['days', 'income', 'ciao', 'come', 'bene']
+    # base_categ = ['days', 'income', 'ciao', 'come', 'bene']
     # to here
 
     months_31_days = [0, 2, 4, 6, 7, 9, 11]
@@ -1066,23 +1066,28 @@ def main():
     global categories
 
     # delete this form here
-    categories = ['ciao', 'come', 'bene']
+    # categories = ['ciao', 'come', 'bene']
     # to here
 
     # Generate the monthly expense DataFrame
     month_expense()
 
     # delete from here
-    global exp_months
+    # global exp_months
 
-    exp_months[0].iat[0, 2] = 100.2
-    exp_months[0].iat[30, 2] = 1000.75
-    exp_months[7].iat[24, 3] = 500
-    exp_months[7].iat[13, 3] = 100.5
-    exp_months[11].iat[30, 2] = 200
-    exp_months[7].iat[24, 1] = 2000.20
-    exp_months[0].iat[10, 1] = 1000.20
+    # exp_months[0].iat[0, 2] = 100.2
+    # exp_months[0].iat[30, 2] = 1000.75
+    # exp_months[7].iat[24, 3] = 500
+    # exp_months[7].iat[13, 3] = 100.5
+    # exp_months[11].iat[30, 2] = 200
+    # exp_months[7].iat[24, 1] = 2000.20
+    # exp_months[0].iat[10, 1] = 1000.20
     # to here
+
+    if len(categories) == 0:
+        print(f'\n/// Add a Category ///')
+        add_edit_delete_categories(0)
+        # print(exp_months[0])
 
     while True:
         while True:
