@@ -1047,7 +1047,7 @@ def del_exp_book():
                     # validate the input (validation is case-sensitive)
                     sub_menu_opt_low = sub_menu_opt.lower()
                     # validate yes or no
-                    if sub_menu_opt_low == 'y' or sub_menu_opt == 'n':
+                    if sub_menu_opt_low == 'y' or sub_menu_opt_low == 'n':
                         sub_menu_opt = sub_menu_opt.upper()
                         break
                     else:
