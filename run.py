@@ -718,7 +718,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
 
     # Extract the expenses as DataFrame 
     # from the list of all expenses of all months
-    df = exp_months[month-1]
+    df = exp_months[month - 1]
 
     if income_expense_str == 'expense':
         ind = 2
@@ -726,10 +726,10 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         ind = 1
 
     if option_str == 'add':
-        df.iat[day-1, categ_column + ind] += exp_inc_val
+        df.iat[day - 1, categ_column + ind] += exp_inc_val
     else:
-        df.iat[day-1, categ_column + ind] = exp_inc_val
-        exp_months[month-1] = df
+        df.iat[day - 1, categ_column + ind] = exp_inc_val
+        exp_months[month - 1] = df
 
     # Print confirmation of expense/income added
     month_text = date_numb_to_text(date[1])
