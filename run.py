@@ -513,6 +513,7 @@ def add_edit_delete_categories(sub_menu_option):
         categ_present = ", ".join(categories)
 
     if sub_menu_option == 0:
+        # Add Categories
         while True:
             remaining_categ = 10 - len(categories)
             print(
@@ -541,7 +542,7 @@ def add_edit_delete_categories(sub_menu_option):
               f'to the categories!\n')
 
     elif sub_menu_option == 1 or sub_menu_option == 2:
-
+        # Rename or Delete a Category
         while True:
             print('The categories present are:')
             print(f'{categ_present}\n')
@@ -562,37 +563,78 @@ def add_edit_delete_categories(sub_menu_option):
         ind = categories.index(edit_del_str)
         if sub_menu_option == 1:
             # Rename one category
+            print('Renaming a category will change the name of a category in\n'
+                  'the expense of each month.')
+            print('Renaming a category will not change or delete\n'
+                  'the expenses already present in this category.')
+            print('They can be found under the new category name.')
+            print('\nAre you sure to rename a category?')
+            choice_str = input('Enter your option (Y/N): ')
+            # convert the input to lower case to be able to
+            # validate the input (validation is case-sensitive)
+            choice_str_low = choice_str.lower()
+            # validate yes or no
             while True:
-                new_name_categ = input(
-                    'Insert the new category name '
-                    '(insert just one category name): ')
-                # validate category
-                if new_name_categ in categories:
-                    print('\nCategory name already present.')
-                    print('Choose a category name not already present.\n')
-                elif validate_strg(new_name_categ) is False:
-                    pass
-                else:
+                if choice_str_low == 'y' or choice_str_low == 'n':
+                    choice_str = choice_str_low.upper()
                     break
+                else:
+                    print(f'\n{choice_str} is not valid.\n')
 
-            categories[ind] = new_name_categ
+            if choice_str == 'Y':
+                while True:
+                    new_name_categ = input(
+                        'Insert the new category name '
+                        '(insert just one category name): ')
+                    # validate category
+                    if new_name_categ in categories:
+                        print('\nCategory name already present.')
+                        print('Choose a category name not already present.\n')
+                    elif validate_strg(new_name_categ) is False:
+                        pass
+                    else:
+                        break
 
-            # Apply the changes to the expense DataFrame
-            for month in range(len(exp_months)):
-                for item in range(len(categories)):
-                    exp_months[month].columns.values[item + 2] =\
-                        categories[item]
+                categories[ind] = new_name_categ
+
+                # Apply the changes to the expense DataFrame
+                for month in range(len(exp_months)):
+                    for item in range(len(categories)):
+                        exp_months[month].columns.values[item + 2] = \
+                            categories[item]
+                print(f'Category {sub_menu_opt_str}d successfully!\n')
+            else:
+                # Category not renamed
+                pass
 
         else:
             # Delete one category
-            categories.pop(ind)
+            print('Deleting a category will delete all the expenses stored\n'
+                  'under that category in each month.')
+            print('\nAre you sure to delete a category?')
+            choice_str = input('Enter your option (Y/N): ')
+            # convert the input to lower case to be able to
+            # validate the input (validation is case-sensitive)
+            choice_str_low = choice_str.lower()
+            # validate yes or no
+            while True:
+                if choice_str_low == 'y' or choice_str_low == 'n':
+                    choice_str = choice_str_low.upper()
+                    break
+                else:
+                    print(f'\n{choice_str} is not valid.\n')
 
-            # Apply the changes to the expense DataFrame
-            for month in range(len(exp_months)):
-                exp_months[month] = exp_months[month].drop(
-                    edit_del_str, axis=1)
+            if choice_str == 'Y':
+                categories.pop(ind)
 
-        print(f'Category {sub_menu_opt_str}d successfully!\n')
+                # Apply the changes to the expense DataFrame
+                for month in range(len(exp_months)):
+                    exp_months[month] = exp_months[month].drop(
+                        edit_del_str, axis=1)
+                    print(f'Category {sub_menu_opt_str}d successfully!\n')
+            else:
+                # Category not deleted
+                pass
 
 
 def sub_menu_categories():
@@ -611,8 +653,10 @@ def sub_menu_categories():
                 categories_menu_opt = int(categories_menu_opt)
                 break
         if categories_menu_opt == 3:
+            # Go back
             break
         else:
+            # Add, Rename or Delete a Category
             sub_menu_opt_str = numb_selection_to_string(
                 categories_menu_opt, 'categories')
             print(f'\n/// {sub_menu_opt_str.capitalize()} a Category ///')
