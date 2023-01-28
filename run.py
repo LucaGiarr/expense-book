@@ -450,7 +450,8 @@ def add_edit_delete_categories(sub_menu_option):
             for ind in range(len(exp_months)):
                 exp_months[ind][categ] = 0
 
-        print(f'{categ} added successfully to the categories!\n')
+        print(f'{", ".join(categ_list)} added successfully '
+              f'to the categories!\n')
 
     elif sub_menu_option == 1 or sub_menu_option == 2:
 
@@ -628,7 +629,8 @@ def sub_menu_exp_income(income_expense_str):
         option_str = numb_selection_to_string(menu_opt, income_expense_str)
 
         if menu_opt == 0 or menu_opt == 1 or menu_opt == 2:
-            print(f'\n/// {option_str.capitalize()} an {income_expense_str} ///')
+            print(f'\n/// {option_str.capitalize()} an '
+                  f'{income_expense_str} ///')
             add_edit_delete_exp_income(income_expense_str, option_str)
 
         else:
