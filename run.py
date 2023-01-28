@@ -275,6 +275,10 @@ def validate_categ_strg(categ_list, remaining_categ):
     for item in categ_list:
         dot_present.append("." in item)
 
+    just_alnum_present = []
+    for item in categ_list:
+        just_alnum_present.append(item.isalnum())
+
     try:
         if len(categ_list) > remaining_categ:
             raise ValueError('too many categories inserted')
@@ -285,6 +289,9 @@ def validate_categ_strg(categ_list, remaining_categ):
                              'end or between category names')
         elif True in dot_present:
             raise ValueError('there is a "." in a category name')
+        elif False in just_alnum_present:
+            raise ValueError('only letters and numbers allowed '
+                             'for the category name')
 
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.\n')
@@ -307,6 +314,9 @@ def validate_strg(str_item):
             raise ValueError('" " not allowed in the category name')
         elif '-' in str_item:
             raise ValueError('"-" not allowed in the category name')
+        if not str_item.isalnum():
+            raise ValueError('only letters and numbers allowed '
+                             'for the category name')
 
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.')
@@ -521,7 +531,7 @@ def sub_menu_categories():
             add_edit_delete_categories(categories_menu_opt)
 
             print('The categories present are:')
-            print(f'{", ".join(categories)}\n')
+            print(f'{", ".join(categories)}')
 
 
 # Expense and Income
