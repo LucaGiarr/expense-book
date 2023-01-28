@@ -8,3 +8,4 @@ node_modules/
 .github/
 venv
 .idea
+creds.json
