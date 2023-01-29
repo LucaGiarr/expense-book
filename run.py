@@ -718,6 +718,11 @@ def sub_menu_categories():
         if categories_menu_opt == 3:
             # Go back
             break
+
+        elif len(categories) == 0 and categories_menu_opt != 0:
+            print('\nNo categories are present. '
+                  'Please add a category first.')
+            sleep(4)
         else:
             # Add, Rename or Delete a Category
             sub_menu_opt_str = numb_selection_to_string(
@@ -816,6 +821,14 @@ def sub_menu_exp_income(income_expense_str):
     global categories
 
     while True:
+        if len(categories) == 0:
+            clear()
+            head_menus(income_expense_str)
+            add_edit_menu(income_expense_str)
+            print('No categories are present. Please add a category first.')
+            sleep(4)
+            break
+
         while True:
             clear()
             head_menus(income_expense_str)
@@ -861,6 +874,11 @@ def sub_menu_calcs():
 
         if menu_opt == 3:
             # Go Back
+            break
+        elif len(categories) == 0:
+            print('\nThere are no expenses because no categories are present.')
+            print('Add first a category.')
+            sleep(4)
             break
         else:
             menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
