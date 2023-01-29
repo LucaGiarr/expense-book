@@ -1224,7 +1224,7 @@ def main():
 
     # Check if there is existing data saved in the spreadsheet
     print('\n------------------ EXPENSE BOOK ------------------')
-    print('Checking existing data...')
+    print('\nChecking existing data...')
     exp_months[0] = SHEET.worksheet('jan')
     existing_categ = exp_months[0].row_values(1)
 
@@ -1257,7 +1257,7 @@ def main():
             month_exp_load()
             categories = existing_categ[2:]
             print('Data loaded successfully!')
-            sleep(3)
+            sleep(5)
             clear()
         else:
             # Create a new Expense Book
@@ -1269,6 +1269,7 @@ def main():
 
     while True:
         while True:
+            clear()
             main_menu()
             main_menu_opt = input('Enter your option: ')
             # Validate main menu option
@@ -1277,33 +1278,40 @@ def main():
                 break
 
         if main_menu_opt == 0:
+            clear()
             print('\n------------ MENU ADD/EDIT CATEGORIES ------------')
             sub_menu_categories()
 
         elif main_menu_opt == 1:
+            clear()
             print('\n------------- MENU ADD/EDIT EXPENSES -------------')
             sub_menu_exp_income('expense')
 
         elif main_menu_opt == 2:
+            clear()
             print('\n-------------- MENU ADD/EDIT INCOME --------------')
             sub_menu_exp_income('income')
 
         elif main_menu_opt == 3:
+            clear()
             print('\n------------------- SHOW LIST --------------------')
             if len(categories) == 0:
-                print('No categories are present.')
+                print('\nNo categories are present.')
             else:
-                print(f'The categories present are:\n{", ".join(categories)}')
-
+                print(f'\nThe categories present are:\n{", ".join(categories)}')
+            sleep(5)
         elif main_menu_opt == 4:
+            clear()
             print('\n------------------ CALCULATIONS ------------------')
             sub_menu_calcs()
 
         elif main_menu_opt == 5:
+            clear()
             print('\n----------------- PRINT TO SCREEN ----------------')
             sub_menu_print()
 
         elif main_menu_opt == 6:
+            clear()
             print('\n--------------- DELETE EXPENSE BOOK --------------')
             del_exp_book()
 
