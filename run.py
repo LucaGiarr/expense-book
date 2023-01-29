@@ -86,8 +86,8 @@ def month_exp_load():
         rows = sprsheet.col_values(1)
         ws.pop(0)
         # Convert ws values in float
-        ws_float = [] * (len(rows)-1)
-        for row in range(len(rows)-1):
+        ws_float = [] * (len(rows) - 1)
+        for row in range(len(rows) - 1):
             ws_float.append([round(float(item), 3) for item in ws[row]])
 
         exp_months[month] = pd.DataFrame(ws_float, index=range(len(rows) - 1),
