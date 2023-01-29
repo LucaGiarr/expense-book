@@ -20,6 +20,29 @@ categories = []
 exp_months = [pd.DataFrame()] * 12
 
 
+# Headers
+def head_menus(menu_str):
+    """
+    Shows the headers of the menus
+    """
+    if menu_str == "categories":
+        print('\n------------ MENU ADD/EDIT CATEGORIES ------------')
+    elif menu_str == "expense":
+        print('\n------------- MENU ADD/EDIT EXPENSES -------------')
+    elif menu_str == "income":
+        print('\n-------------- MENU ADD/EDIT INCOME --------------')
+    elif menu_str == "show_categ_list":
+        print('\n-------------- SHOW CATEGORY LIST ----------------')
+    elif menu_str == "calcs":
+        print('\n------------------ CALCULATIONS ------------------')
+    elif menu_str == "print_to_terminal":
+        print('\n---------------- PRINT TO TERMINAL ---------------')
+    elif menu_str == "del_exp_book":
+        print('\n--------------- DELETE EXPENSE BOOK --------------')
+    elif menu_str == "exp_book":
+        print('\n------------------ EXPENSE BOOK ------------------')
+
+
 # Create the month expense data frames
 def month_expense():
     """
