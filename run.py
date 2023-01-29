@@ -655,7 +655,7 @@ def add_edit_delete_categories(sub_menu_option):
                 for month in range(len(exp_months)):
                     exp_months[month] = exp_months[month].drop(
                         edit_del_str, axis=1)
-                    print(f'Category {sub_menu_opt_str}d successfully!\n')
+                print(f'Category {sub_menu_opt_str}d successfully!\n')
             else:
                 # Category not deleted
                 pass
