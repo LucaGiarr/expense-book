@@ -479,6 +479,7 @@ def validate_numb_int(str_item, num_min, num_max):
 
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.')
+        sleep(2)
         return False
 
     return True
@@ -577,7 +578,7 @@ def add_edit_delete_categories(sub_menu_option):
             print(f'{categ_present}\n')
 
             categ_items = str.lower(
-                input('Enter your categories of the expenses here: '))
+                input('Enter the categories name of the expenses here: '))
 
             categ_list = categ_items.split(',')
 
@@ -593,6 +594,7 @@ def add_edit_delete_categories(sub_menu_option):
 
         print(f'{", ".join(categ_list)} added successfully '
               f'to the categories!\n')
+        sleep(4)
 
     elif sub_menu_option == 1 or sub_menu_option == 2:
         # Rename or Delete a Category
@@ -622,17 +624,18 @@ def add_edit_delete_categories(sub_menu_option):
                   'the expenses already present in this category.')
             print('They can be found under the new category name.')
             print('\nAre you sure to rename a category?')
-            choice_str = input('Enter your option (Y/N): ')
-            # convert the input to lower case to be able to
-            # validate the input (validation is case-sensitive)
-            choice_str_low = choice_str.lower()
-            # validate yes or no
+
             while True:
+                choice_str = input('Enter your option (Y/N): ')
+                # convert the input to lower case to be able to
+                # validate the input (validation is case-sensitive)
+                choice_str_low = choice_str.lower()
+                # validate yes or no
                 if choice_str_low == 'y' or choice_str_low == 'n':
                     choice_str = choice_str_low.upper()
                     break
                 else:
-                    print(f'\n{choice_str} is not valid.\n')
+                    print(f'\nInput not valid, please try again.\n')
 
             if choice_str == 'Y':
                 while True:
@@ -646,6 +649,7 @@ def add_edit_delete_categories(sub_menu_option):
                     elif validate_strg(new_name_categ) is False:
                         pass
                     else:
+                        sleep(2.5)
                         break
 
                 categories[ind] = new_name_categ
@@ -656,9 +660,11 @@ def add_edit_delete_categories(sub_menu_option):
                         exp_months[month].columns.values[item + 2] = \
                             categories[item]
                 print(f'Category {sub_menu_opt_str}d successfully!\n')
+                sleep(4)
             else:
                 # Category not renamed
-                pass
+                print('Category not renamed.')
+                sleep(2.5)
 
         else:
             # Delete one category
@@ -685,9 +691,11 @@ def add_edit_delete_categories(sub_menu_option):
                     exp_months[month] = exp_months[month].drop(
                         edit_del_str, axis=1)
                 print(f'Category {sub_menu_opt_str}d successfully!\n')
+                sleep(4)
             else:
                 # Category not deleted
-                pass
+                print('Category not deleted.')
+                sleep(2.5)
 
 
 def sub_menu_categories():
@@ -699,6 +707,8 @@ def sub_menu_categories():
 
     while True:
         while True:
+            clear()
+            head_menus('categories')
             add_edit_menu('categories')
             categories_menu_opt = input('Enter your option: ')
             # Validate menu option
@@ -714,9 +724,6 @@ def sub_menu_categories():
                 categories_menu_opt, 'categories')
             print(f'\n/// {sub_menu_opt_str.capitalize()} a Category ///')
             add_edit_delete_categories(categories_menu_opt)
-
-            print('The categories present are:')
-            print(f'{", ".join(categories)}')
 
 
 # Expense and Income
@@ -787,8 +794,15 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     # Print confirmation of expense/income added
     month_text = date_numb_to_text(date[1])
     if option_str == 'delete':
-        print(f'\n{income_expense_str.capitalize()} deleted successfully '
-              f'to the category {categ_name} on the {day} of {month_text}.\n')
+        if income_expense_str == 'expense':
+            # Delete expense
+            print(f'\n{income_expense_str.capitalize()} deleted successfully '
+                  f'to the category {categ_name} on the {day} of '
+                  f'{month_text}.\n')
+        else:
+            # Delete income
+            print(f'\n{income_expense_str.capitalize()} deleted successfully '
+                  f'on the {day} of {month_text}.\n')
     else:
         print(f'\n{exp_inc_val} euro {option_str}ed successfully '
               f'to the category {categ_name} on the {day} of {month_text}.\n')
@@ -803,6 +817,8 @@ def sub_menu_exp_income(income_expense_str):
 
     while True:
         while True:
+            clear()
+            head_menus(income_expense_str)
             add_edit_menu(income_expense_str)
             menu_opt = input('Enter your option: ')
             # Validate menu option
@@ -816,7 +832,7 @@ def sub_menu_exp_income(income_expense_str):
             print(f'\n/// {option_str.capitalize()} an '
                   f'{income_expense_str} ///')
             add_edit_delete_exp_income(income_expense_str, option_str)
-
+            sleep(4)
         else:
             break
 
@@ -832,12 +848,16 @@ def sub_menu_calcs():
 
     while True:
         while True:
+            clear()
+            head_menus('calcs')
             calcs_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
             if validate_numb_int(menu_opt, 0, 3):
                 menu_opt = int(menu_opt)
                 break
+            clear()
+            head_menus('calcs')
 
         if menu_opt == 3:
             # Go Back
@@ -846,6 +866,7 @@ def sub_menu_calcs():
             menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
 
             while True:
+                clear()
                 print(f'\n/// Spent in {menu_opt_str} ///')
                 calcs_sub_menu()
                 sub_menu_opt = input('Enter your option: ')
@@ -853,6 +874,8 @@ def sub_menu_calcs():
                 if validate_numb_int(sub_menu_opt, 0, 2):
                     sub_menu_opt = int(sub_menu_opt)
                     break
+                clear()
+                head_menus('calcs')
 
         if menu_opt == 0:
             # Spent in a day
@@ -882,11 +905,14 @@ def sub_menu_calcs():
                         break
                     else:
                         print(f'{categ_name} is not in categories.')
+                        sleep(2.5)
 
                 result = exp_months[month - 1].at[day - 1, categ_name]
                 month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro '
                       f'in the category {categ_name}.')
+                sleep(4)
+                clear()
 
             elif sub_menu_opt == 1:
                 # Spent in 1 day in all categories
@@ -896,6 +922,8 @@ def sub_menu_calcs():
 
                 month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro.')
+                sleep(4)
+                clear()
 
         elif menu_opt == 1:
             # Spent in 1 month
@@ -922,12 +950,15 @@ def sub_menu_calcs():
                         break
                     else:
                         print(f'{categ_name} is not in categories.')
+                        sleep(2.5)
 
                 result = exp_months[month - 1][categ_name].sum()
                 month_text = date_numb_to_text(date_str)
                 print(
                     f'\nIn {month_text} you spent {result} euro'
                     f' in the category {categ_name}.')
+                sleep(4)
+                clear()
 
             elif sub_menu_opt == 1:
                 # Spent in 1 month in all categories
@@ -939,6 +970,8 @@ def sub_menu_calcs():
 
                 month_text = date_numb_to_text(date_str)
                 print(f'\nIn {month_text} you spent {result} euro.')
+                sleep(4)
+                clear()
 
         elif menu_opt == 2:
             # Spent in the whole year
@@ -954,6 +987,7 @@ def sub_menu_calcs():
                         break
                     else:
                         print(f'{categ_name} is not in categories.\n')
+                        sleep(2.5)
 
                 result = 0
                 for month in range(len(exp_months)):
@@ -962,6 +996,8 @@ def sub_menu_calcs():
                 print(
                     f'\nIn the whole 2023 you spent {result} euro '
                     f'in the category {categ_name}.')
+                sleep(4)
+                clear()
 
             elif sub_menu_opt == 1:
                 # Spent in 1 year in all categories
@@ -976,6 +1012,9 @@ def sub_menu_calcs():
                     print(f'{month + 1}: {result_month} euro')
 
                 print(f'\nIn the whole 2023 you spent {result} euro.')
+                sleep(4)
+                clear()
+                head_menus('calcs')
             else:
                 pass
 
@@ -990,6 +1029,8 @@ def sub_menu_print():
 
     while True:
         while True:
+            clear()
+            head_menus('print_to_terminal')
             show_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
@@ -1001,13 +1042,16 @@ def sub_menu_print():
             # Go Back
             break
         elif len(categories) == 0 and menu_opt == 0:
-            print('\nNo expense because there are no categories.')
+            print('\nThere are no expenses because no categories are present.')
             print('Add first a category.')
+            sleep(4)
         else:
 
             menu_opt_str = numb_selection_to_string(menu_opt, 'show')
 
             while True:
+                clear()
+                head_menus('print_to_terminal')
                 print(f'\n/// {menu_opt_str} ///')
                 show_sub_menu(menu_opt_str)
                 sub_menu_opt = input('Enter your option: ')
@@ -1030,10 +1074,14 @@ def sub_menu_print():
                     # Expense of one month
                     df_exp = exp_months[month - 1].copy()
                     del df_exp['income']
+                    clear()
                     print(f'\n{df_exp}')
+                    sleep(7)
                 else:
                     # Income of one month
-                    print(exp_months[month - 1].loc[:, 'days':'income'])
+                    clear()
+                    print(f'\n{exp_months[month - 1].loc[:, "days":"income"]}')
+                    sleep(7)
 
             elif sub_menu_opt == 1:
                 # Expense or Income of the year
@@ -1050,8 +1098,10 @@ def sub_menu_print():
                     for item in exp_list:
                         exp_year += (round(float(item), 2))
 
-                    print(result)
+                    clear()
+                    print(f'\n{result}')
                     print(f'\nIn total you spent {exp_year} euro this year.')
+                    sleep(7)
 
                 else:
                     # Income of the year
@@ -1061,8 +1111,11 @@ def sub_menu_print():
                         result.at[month + 1, 'income'] = res
 
                     inc_year = result.sum().tolist()
-                    print(result)
+
+                    clear()
+                    print(f'\n{result}')
                     print(f'\nThe income of the year is {inc_year[0]} euro.')
+                    sleep(7)
             else:
                 # Go back
                 pass
@@ -1078,6 +1131,8 @@ def del_exp_book():
 
     while True:
         while True:
+            clear()
+            head_menus('del_exp_book')
             del_exp_book_menu()
             menu_opt = input('Enter your option: ')
             # validate option (calcs_menu)
@@ -1090,9 +1145,10 @@ def del_exp_book():
             break
         elif menu_opt == 0:
             if len(categories) == 0:
-                print('There are no categories present.')
+                print('No categories are present. Please add a category first.')
+                sleep(4)
             else:
-                print('Are you sure you want to delete all the categories '
+                print('\nAre you sure you want to delete all the categories '
                       'included the expenses and incomes?\n')
                 while True:
                     sub_menu_opt = input('Enter your option (Y/N): ')
@@ -1107,6 +1163,7 @@ def del_exp_book():
                         print(f'\n{sub_menu_opt} is not valid.\n')
                 if sub_menu_opt == 'N':
                     print('Data NOT deleted.')
+                    sleep(3)
                 else:
                     for month in range(len(exp_months)):
                         exp_months[month].drop(
@@ -1115,9 +1172,11 @@ def del_exp_book():
 
                     categories = []
                     print('Expense book deleted successfully!')
+                    sleep(3)
 
         elif menu_opt == 1 and len(categories) == 0:
-            print('There are no categories present.')
+            print('No categories are present. Please add a category first.')
+            sleep(3)
 
         else:
             menu_opt_str = numb_selection_to_string(menu_opt, 'delete')
@@ -1157,6 +1216,7 @@ def del_exp_book():
                         exp_months[month - 1][categ] = 0
                     print(f'Expenses of ALL categories of {month_text} '
                           f'deleted successfully!')
+                    sleep(3)
 
                 elif sub_sub_menu_opt == 1:
                     # Delete Expense of a month of ONE category
@@ -1172,10 +1232,12 @@ def del_exp_book():
                         else:
                             print(f'{categ_name} is not in categories. '
                                   f'Please enter a valid category name.\n')
+                            sleep(3)
 
                     exp_months[month - 1][categ_name] = 0
                     print(f'Expenses of the category {categ_name} of '
                           f'{month_text} deleted successfully!')
+                    sleep(3)
 
                 else:
                     pass
@@ -1184,6 +1246,7 @@ def del_exp_book():
                 # Delete Income of one month
                 exp_months[month - 1]['income'] = 0
                 print(f'Incomes of {month_text} deleted successfully!')
+                sleep(3)
 
         elif sub_menu_opt == 1:
             # Delete Expense or Income of the year
@@ -1205,6 +1268,7 @@ def del_exp_book():
 
                     print('Expenses of the whole year of '
                           'ALL categories deleted successfully.')
+                    sleep(3)
 
                 elif sub_sub_menu_opt == 1:
                     # Delete Expense of the whole year of ONE category
@@ -1221,12 +1285,14 @@ def del_exp_book():
                         else:
                             print(f'{categ_name} is not in categories. '
                                   f'Please enter a valid category name.\n')
+                            sleep(3)
 
                     for month in range(len(exp_months)):
                         exp_months[month][categ_name] = 0
 
                     print(f'Expenses of the whole year of the category '
                           f'{categ_name} deleted successfully!')
+                    sleep(3)
 
                 else:
                     # Go back
@@ -1238,6 +1304,7 @@ def del_exp_book():
                     exp_months[month]['income'] = 0
 
                 print('Expenses of the whole year deleted successfully!')
+                sleep(3)
 
         else:
             # Go back
@@ -1252,7 +1319,7 @@ def main():
     global categories, exp_months
 
     # Check if there is existing data saved in the spreadsheet
-    print('\n------------------ EXPENSE BOOK ------------------')
+    head_menus('exp_book')
     print('\nChecking existing data...')
     exp_months[0] = SHEET.worksheet('jan')
     existing_categ = exp_months[0].row_values(1)
@@ -1274,10 +1341,13 @@ def main():
             if validate_numb_int(sub_menu_opt, 0, 2):
                 sub_menu_opt = int(sub_menu_opt)
                 break
+            clear()
+            head_menus('exp_book')
+            print('\nFound existing Expense book.')
 
         if sub_menu_opt == 2:
             # Quit
-            print('Goodbye.')
+            print('\nGoodbye.')
             quit()
 
         elif sub_menu_opt == 0:
@@ -1286,7 +1356,7 @@ def main():
             month_exp_load()
             categories = existing_categ[2:]
             print('Data loaded successfully!')
-            sleep(5)
+            sleep(3)
             clear()
         else:
             # Create a new Expense Book
@@ -1302,46 +1372,42 @@ def main():
             main_menu()
             main_menu_opt = input('Enter your option: ')
             # Validate main menu option
-            if validate_numb_int(main_menu_opt, 0, 7):
+            if validate_numb_int(main_menu_opt, 0, 8):
                 main_menu_opt = int(main_menu_opt)
                 break
+            sleep(2.5)
 
         if main_menu_opt == 0:
-            clear()
-            print('\n------------ MENU ADD/EDIT CATEGORIES ------------')
+            # Categories
             sub_menu_categories()
 
         elif main_menu_opt == 1:
-            clear()
-            print('\n------------- MENU ADD/EDIT EXPENSES -------------')
+            # Expenses
             sub_menu_exp_income('expense')
 
         elif main_menu_opt == 2:
-            clear()
-            print('\n-------------- MENU ADD/EDIT INCOME --------------')
+            # Incomes
             sub_menu_exp_income('income')
 
         elif main_menu_opt == 3:
+            # Show category list
             clear()
-            print('\n------------------- SHOW LIST --------------------')
+            head_menus('show_categ_list')
             if len(categories) == 0:
                 print('\nNo categories are present.')
             else:
                 print(f'\nThe categories present are:\n{", ".join(categories)}')
             sleep(5)
         elif main_menu_opt == 4:
-            clear()
-            print('\n------------------ CALCULATIONS ------------------')
+            # Do calculations
             sub_menu_calcs()
 
         elif main_menu_opt == 5:
-            clear()
-            print('\n----------------- PRINT TO SCREEN ----------------')
+            # Print to Terminal
             sub_menu_print()
 
         elif main_menu_opt == 6:
-            clear()
-            print('\n--------------- DELETE EXPENSE BOOK --------------')
+            # Delete Expense Book
             del_exp_book()
 
         elif main_menu_opt == 7:
