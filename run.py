@@ -108,7 +108,8 @@ def main_menu():
     print('4 - Do a Calculation')
     print('5 - Print to Terminal')
     print('6 - Delete Expense Book')
-    print('7 - Save and Exit\n')
+    print('7 - Save and Exit')
+    print('8 - Discard changes and Exit\n')
 
 
 # Add/Edit menu
@@ -1343,10 +1344,17 @@ def main():
             print('\n--------------- DELETE EXPENSE BOOK --------------')
             del_exp_book()
 
-        else:
+        elif main_menu_opt == 7:
+            # Save and Exit
             print('\nUploading data...')
             erase_save_data('save')
             print('Data uploaded successfully!')
+            print('Goodbye.')
+            break
+
+        else:
+            # Exit without saving
+            print('\nChanges discarded!')
             print('Goodbye.')
             break
 
