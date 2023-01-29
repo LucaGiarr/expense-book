@@ -62,11 +62,16 @@ def month_exp_load():
         col = sprsheet.row_values(1)
         rows = sprsheet.col_values(1)
         ws.pop(0)
-        exp_months[month] = pd.DataFrame(ws, index=range(len(rows) - 1),
+        # Convert ws values in float
+        ws_float = [] * (len(rows)-1)
+        for row in range(len(rows)-1):
+            ws_float.append([round(float(item), 3) for item in ws[row]])
+
+        exp_months[month] = pd.DataFrame(ws_float, index=range(len(rows) - 1),
                                          columns=col)
 
 
-# ------------ Menus ------------
+# Main menu
 def main_menu():
     """
     Shows the initial options and features of the Expense book
