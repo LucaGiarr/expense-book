@@ -1,4 +1,6 @@
 import pandas as pd
+from time import sleep
+from os import system, name
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -343,6 +345,22 @@ def erase_save_data(action):
                    exp_months[10].loc[:].values.tolist())
         dec.update([exp_months[11].columns.values.tolist()] +
                    exp_months[11].loc[:].values.tolist())
+
+
+# Clear terminal
+def clear():
+    """
+    Clears the terminal once is called
+    Taken from:
+    https://www.geeksforgeeks.org/clear-screen-python/
+    """
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 
 # Validation inputs
@@ -1239,6 +1257,8 @@ def main():
             month_exp_load()
             categories = existing_categ[2:]
             print('Data loaded successfully!')
+            sleep(3)
+            clear()
         else:
             # Create a new Expense Book
             # Generate the monthly expense DataFrame
