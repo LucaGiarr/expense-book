@@ -28,10 +28,6 @@ def month_expense():
 
     base_categ = ['days', 'income']
 
-    # delete from here
-    # base_categ = ['days', 'income', 'ciao', 'come', 'bene']
-    # to here
-
     months_31_days = [0, 2, 4, 6, 7, 9, 11]
     months_30_days = [3, 5, 8, 10]
 
@@ -82,7 +78,7 @@ def main_menu():
     print('4 - Do a Calculation')
     print('5 - Print to Terminal')
     print('6 - Delete Expense Book')
-    print('7 - Exit\n')
+    print('7 - Save and Exit\n')
 
 
 # Add/Edit menu
@@ -181,6 +177,16 @@ def delete_sub_sub_menu():
     print('2 - Go Back\n')
 
 
+# Load Expense Book menus
+def load_exp_book_menu():
+    """
+    Shows the menu when the user is asked to load or create a new Expense Book
+    """
+    print('\n0 - Load existing Expense Book')
+    print('1 - Create a new Expense Book')
+    print('2 - Quit\n')
+
+
 # Other functions
 def numb_selection_to_string(numb, menu_item):
     """
@@ -208,7 +214,6 @@ def numb_selection_to_string(numb, menu_item):
             selection = 'Expense'
         elif numb == 2:
             selection = 'Income'
-
     else:
         if numb == 0:
             selection = 'add'
@@ -261,6 +266,7 @@ def date_numb_to_text(date_str):
 def days_in_month(y, m):
     """
     Returns the number of days in a month
+    Taken from:
     https://www.tutorialspoint.com/number-of-days-in-a-month-in-python#:
     ~:text=Practical%20Data%20Science%20using%20Python&text=
     Suppose%20we%20have%20one%20year,then%20the%20result%20is%2029.
@@ -1199,12 +1205,12 @@ def main():
     global categories, exp_months
 
     # Check if there is existing data saved in the spreadsheet
+    print('\n------------------ EXPENSE BOOK ------------------')
+    print('Checking existing data...')
     exp_months[0] = SHEET.worksheet('jan')
     existing_categ = exp_months[0].row_values(1)
 
     if len(existing_categ) <= 2:
-        print('\n------------------ EXPENSE BOOK ------------------')
-        print('Checking existing data...')
         print('No data existing.')
 
         # Generate the monthly expense DataFrame
@@ -1213,29 +1219,33 @@ def main():
         print(f'\n/// Add a Category ///')
         add_edit_delete_categories(0)
     else:
-        print('Loading data...')
-        month_exp_load()
-        categories = existing_categ[2:]
+        print('Found existing Expense book.')
+        while True:
+            load_exp_book_menu()
+            sub_menu_opt = input('Enter your option: ')
+            #  validate menu option
+            if validate_numb_int(sub_menu_opt, 0, 2):
+                sub_menu_opt = int(sub_menu_opt)
+                break
 
-    # delete this form here
-    # categories = ['ciao', 'come', 'bene']
-    # to here
+        if sub_menu_opt == 2:
+            # Quit
+            print('Goodbye.')
+            quit()
 
-    # Generate the monthly expense DataFrame
-    # month_expense()
+        elif sub_menu_opt == 0:
+            # Load existing Expense Book
+            print('Loading data...')
+            month_exp_load()
+            categories = existing_categ[2:]
+            print('Data loaded successfully!')
+        else:
+            # Create a new Expense Book
+            # Generate the monthly expense DataFrame
+            month_expense()
 
-    # delete from here
-
-    # exp_months[0].iat[0, 2] = 100.2
-    # exp_months[0].iat[30, 2] = 1000.75
-    # exp_months[7].iat[24, 3] = 500
-    # exp_months[7].iat[13, 3] = 100.5
-    # exp_months[11].iat[30, 2] = 200
-    # exp_months[7].iat[24, 1] = 2000.20
-    # exp_months[0].iat[10, 1] = 1000.20
-    # exp_months[0].iat[15, 1] = 5000.35
-
-    # to here
+            print(f'\n/// Add a Category ///')
+            add_edit_delete_categories(0)
 
     while True:
         while True:
@@ -1278,9 +1288,9 @@ def main():
             del_exp_book()
 
         else:
-            print('\nUpdating data to the google sheet...')
+            print('\nUploading data...')
             erase_save_data('save')
-            print('Update successful!')
+            print('Data uploaded successfully!')
             print('Goodbye.')
             break
 
