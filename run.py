@@ -124,12 +124,12 @@ def add_edit_menu(strg):
     strg = strg.capitalize()
 
     cat_length = len(categories)
-    if strg == 'categories' and cat_length == 10:
-        print('Are present 10 categories. You can:')
+    if strg == 'Categories' and cat_length == 10:
+        print('\nAre present 10 categories. You can:')
         print(f'\n1 - Rename {strg}')
         print(f'2 - Delete {strg}')
         print('3 - Go Back\n')
-    elif strg == 'categories':
+    elif strg == 'Categories':
         print(f'\n0 - Add {strg}')
         print(f'1 - Rename {strg}')
         print(f'2 - Delete {strg}')
