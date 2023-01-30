@@ -80,6 +80,7 @@ def month_exp_load():
     """
     months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep',
               'octob', 'nov', 'dec']
+
     for month in range(len(months)):
         sprsheet = SHEET.worksheet(months[month])
         ws = sprsheet.get_all_values()
@@ -246,14 +247,17 @@ def numb_selection_to_string(numb, menu_item):
             selection = 'Expense'
         elif numb == 2:
             selection = 'Income'
+
     else:
         if numb == 0:
             selection = 'add'
         elif numb == 1:
+
             if menu_item == 'categories':
                 selection = 'rename'
             else:
                 selection = 'edit'
+
         elif numb == 2:
             selection = 'delete'
         elif numb == 3:
@@ -745,7 +749,7 @@ def sub_menu_categories():
 # Expense and Income
 def add_edit_delete_exp_income(income_expense_str, option_str):
     """
-    Adds, edit and delete an expenses or an income. 
+    Adds, edit and delete an expenses or an income.
     """
     # Global variables
     global categories, exp_months
@@ -792,7 +796,7 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
     day = int(date[0])
     month = int(date[1])
 
-    # Extract the expenses as DataFrame 
+    # Extract the expenses as DataFrame
     # from the list of all expenses of all months
     df = exp_months[month - 1]
 
@@ -886,11 +890,13 @@ def sub_menu_calcs():
         if menu_opt == 3:
             # Go Back
             break
+
         elif len(categories) == 0:
             print('\nThere are no expenses because no categories are present.')
             print('Add first a category.')
             sleep(4)
             break
+
         else:
             menu_opt_str = numb_selection_to_string(menu_opt, 'calcs')
 
@@ -911,6 +917,7 @@ def sub_menu_calcs():
             if sub_menu_opt == 2:
                 # Go Back
                 pass
+
             else:
                 while True:
                     date_str = input('Enter the date of expense (DD/MM): ')
@@ -959,6 +966,7 @@ def sub_menu_calcs():
             if sub_menu_opt == 2:
                 # Go Back
                 pass
+
             else:
                 while True:
                     date_str = input('Enter the month of expense (MM): ')
@@ -1084,7 +1092,7 @@ def sub_menu_print():
                 print(f'\n/// {menu_opt_str} ///')
                 show_sub_menu(menu_opt_str)
                 sub_menu_opt = input('Enter your option: ')
-                #  validate option (calcs_sub_menu)
+                #  validate menu option
                 if validate_numb_int(sub_menu_opt, 0, 2):
                     sub_menu_opt = int(sub_menu_opt)
                     break
@@ -1164,7 +1172,7 @@ def del_exp_book():
             head_menus('del_exp_book')
             del_exp_book_menu()
             menu_opt = input('Enter your option: ')
-            # validate option (calcs_menu)
+            # validate menu option
             if validate_numb_int(menu_opt, 0, 3):
                 menu_opt = int(menu_opt)
                 break
@@ -1174,7 +1182,8 @@ def del_exp_book():
             break
         elif menu_opt == 0:
             if len(categories) == 0:
-                print('No categories are present. Please add a category first.')
+                print('No categories are present. '
+                      'Please add a category first.')
                 sleep(4)
             else:
                 print('\nAre you sure you want to delete all the categories '
@@ -1196,7 +1205,8 @@ def del_exp_book():
                 else:
                     for month in range(len(exp_months)):
                         exp_months[month].drop(
-                            exp_months[month].iloc[:, 2:], inplace=True, axis=1)
+                            exp_months[month].iloc[:, 2:],
+                            inplace=True, axis=1)
                         exp_months[month]['income'] = 0
 
                     categories = []
@@ -1234,7 +1244,7 @@ def del_exp_book():
                 while True:
                     delete_sub_sub_menu()
                     sub_sub_menu_opt = input('Enter your option: ')
-                    # Validate option
+                    # Validate menu option
                     if validate_numb_int(sub_sub_menu_opt, 0, 2):
                         sub_sub_menu_opt = int(sub_sub_menu_opt)
                         break
@@ -1252,8 +1262,8 @@ def del_exp_book():
                     while True:
                         print('The categories present are:')
                         print(f'{", ".join(categories)}')
-                        categ_name = input(f'\nEnter the category name of which'
-                                           f' you want to delete '
+                        categ_name = input(f'\nEnter the category name '
+                                           f'of which you want to delete '
                                            f'the expenses: ')
                         # validate name of the category
                         if categ_name in categories:
@@ -1305,8 +1315,8 @@ def del_exp_book():
                         print('The categories present are:')
                         print(f'{", ".join(categories)}')
 
-                        categ_name = input(f'\nEnter the category name of which'
-                                           f' you want to delete '
+                        categ_name = input(f'\nEnter the category name '
+                                           f'of which you want to delete '
                                            f'the expenses: ')
                         # validate name of the category
                         if categ_name in categories:
@@ -1361,6 +1371,7 @@ def main():
 
         print(f'\n/// Add a Category ///')
         add_edit_delete_categories(0)
+
     else:
         print('Found existing Expense book.')
         while True:
@@ -1425,8 +1436,10 @@ def main():
             if len(categories) == 0:
                 print('\nNo categories are present.')
             else:
-                print(f'\nThe categories present are:\n{", ".join(categories)}')
+                print(f'\nThe categories present are:'
+                      f'\n{", ".join(categories)}')
             sleep(5)
+
         elif main_menu_opt == 4:
             # Do calculations
             sub_menu_calcs()
