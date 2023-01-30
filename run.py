@@ -449,7 +449,8 @@ def validate_categ_strg(categ_list, remaining_categ):
             raise ValueError('a name is repeated more than once')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         return False
 
     return True
@@ -474,7 +475,8 @@ def validate_strg(str_item):
                              'for the category name')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         return False
 
     return True
@@ -493,7 +495,8 @@ def validate_numb_int(str_item, num_min, num_max):
             raise ValueError('option out of range')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         sleep(2)
         return False
 
@@ -513,7 +516,8 @@ def validate_numb_float(str_item, num_min, num_max):
             raise ValueError('value out of range')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         return False
 
     return True
@@ -542,7 +546,8 @@ def validate_date(date_str):
             raise ValueError('missing "/" between DD and MM')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         return False
 
     return True
@@ -562,7 +567,8 @@ def validate_date_just_month(date_str):
             raise ValueError('"MM" out of range')
 
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'Invalid data: {e}.')
+        print('Please try again.\n')
         return False
 
     return True
@@ -773,9 +779,8 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
             if categ_name in categories:
                 break
             else:
-                print(
-                    f'{categ_name} is not in categories. '
-                    f'Please enter a valid category name.')
+                print(f'{categ_name} is not in categories.')
+                print('Please enter a valid category name.')
 
         categ_column = categories.index(categ_name)
 
@@ -817,15 +822,16 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
         if income_expense_str == 'expense':
             # Delete expense
             print(f'\n{income_expense_str.capitalize()} deleted successfully '
-                  f'to the category {categ_name} on the {day} of '
-                  f'{month_text}.\n')
+                  f'to the category {categ_name}')
+            print(f'on the {day} of {month_text}.\n')
         else:
             # Delete income
-            print(f'\n{income_expense_str.capitalize()} deleted successfully '
-                  f'on the {day} of {month_text}.\n')
+            print(f'\n{income_expense_str.capitalize()} deleted successfully')
+            print(f'on the {day} of {month_text}.\n')
     else:
         print(f'\n{exp_inc_val} euro {option_str}ed successfully '
-              f'to the category {categ_name} on the {day} of {month_text}.\n')
+              f'to the category {categ_name} ')
+        print(f'on the {day} of {month_text}.\n')
 
 
 def sub_menu_exp_income(income_expense_str):
@@ -1187,7 +1193,7 @@ def del_exp_book():
                 sleep(4)
             else:
                 print('\nAre you sure you want to delete all the categories '
-                      'included the expenses and incomes?\n')
+                      '\nincluded the expenses and incomes?\n')
                 while True:
                     sub_menu_opt = input('Enter your option (Y/N): ')
                     # convert the input to lower case to be able to
