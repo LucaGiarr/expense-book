@@ -1,6 +1,7 @@
 import pandas as pd
 from time import sleep
 from os import system, name
+from collections import Counter
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -419,6 +420,14 @@ def validate_categ_strg(categ_list, remaining_categ):
     for item in categ_list:
         just_alnum_present.append(item.isalnum())
 
+    # Check if any name is repeated more than once
+    is_repeated = False
+    if len(categ_list) > 0:
+        items_count = Counter(categ_list).values()
+        items_sum = sum(items_count)
+        if items_sum > len(items_count):
+            is_repeated = True
+
     try:
         if len(categ_list) > remaining_categ:
             raise ValueError('too many categories inserted')
@@ -432,6 +441,8 @@ def validate_categ_strg(categ_list, remaining_categ):
         elif False in just_alnum_present:
             raise ValueError('only letters and numbers allowed '
                              'for the category name')
+        elif is_repeated:
+            raise ValueError('a name is repeated more than once')
 
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.\n')
