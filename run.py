@@ -528,18 +528,15 @@ def validate_date(date_str):
     Validates data (date) raising a
     ValueError if the input is not as shown in the input.
     """
-    day = date_str[:2]
-    month = date_str[3:]
-    max_days = days_in_month(2023, int(month))
-
     try:
         if len(date_str) != 5:
             raise ValueError('a number or "/" missing in the input')
-        elif not day.isnumeric():
+        elif not date_str[:2].isnumeric():
             raise ValueError('the "DD" numbers are not allowed')
-        elif not month.isnumeric():
+        elif not date_str[3:].isnumeric():
             raise ValueError('the "MM" numbers are not allowed')
-        elif int(day) < 1 or int(day) > max_days:
+        elif int(date_str[:2]) < 1 or \
+                int(date_str[:2]) > days_in_month(2023, int(date_str[3:])):
             raise ValueError(f'"DD" out of range')
         elif int(date_str[3:]) < 1 or int(date_str[3:]) > 12:
             raise ValueError('"MM" out of range')
