@@ -685,8 +685,8 @@ def add_edit_delete_categories(sub_menu_option):
                 sleep(4)
             else:
                 # Category not renamed
-                print('Category not renamed.')
-                sleep(2.5)
+                print('Category NOT renamed.')
+                sleep(4)
 
         else:
             # Delete one category
@@ -716,8 +716,8 @@ def add_edit_delete_categories(sub_menu_option):
                 sleep(4)
             else:
                 # Category not deleted
-                print('Category not deleted.')
-                sleep(2.5)
+                print('Category NOT deleted.')
+                sleep(4)
 
 
 def sub_menu_categories():
