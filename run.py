@@ -1134,6 +1134,10 @@ def sub_menu_print():
                     # Income of one month
                     clear()
                     print(f'\n{exp_months[month - 1].loc[:, "days":"income"]}')
+                    month_text = date_numb_to_text(month_str)
+                    income_month = exp_months[month - 1]['income'].sum()
+                    print(f'\nThe income of {month_text} is '
+                          f'{income_month} euro.')
                     input('Enter the Return key in the '
                           'keyboard to continue...')
 
