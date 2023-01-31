@@ -830,9 +830,16 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
             print(f'\n{income_expense_str.capitalize()} deleted successfully')
             print(f'on the {day} of {month_text}.\n')
     else:
-        print(f'\n{exp_inc_val} euro {option_str}ed successfully '
-              f'to the category {categ_name} ')
-        print(f'on the {day} of {month_text}.\n')
+        if income_expense_str == 'expense':
+            # Add or edit expense
+            print(f'\n{exp_inc_val} euro {option_str}ed successfully '
+                  f'to the category {categ_name} ')
+            print(f'on the {day} of {month_text}.\n')
+        else:
+            # Add or edit income
+            print(f'\n{exp_inc_val} euro {option_str}ed successfully '
+                  f'as income')
+            print(f'on the {day} of {month_text}.\n')
 
 
 def sub_menu_exp_income(income_expense_str):
