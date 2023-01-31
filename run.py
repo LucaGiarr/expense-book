@@ -827,8 +827,9 @@ def add_edit_delete_exp_income(income_expense_str, option_str):
             print(f'on the {day} of {month_text}.\n')
         else:
             # Delete income
-            print(f'\n{income_expense_str.capitalize()} deleted successfully')
-            print(f'on the {day} of {month_text}.\n')
+            print(f'\n{income_expense_str.capitalize()} of '
+                  f'the {day} of {month_text}')
+            print(f'deleted successfully.\n')
     else:
         if income_expense_str == 'expense':
             # Add or edit expense
