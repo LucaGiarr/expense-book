@@ -733,7 +733,10 @@ def sub_menu_categories():
             add_edit_menu('categories')
             categories_menu_opt = input('Enter your option: ')
             # Validate menu option
-            if validate_numb_int(categories_menu_opt, 0, 3):
+            menu_opt_min = 0
+            if len(categories) == 10:
+                menu_opt_min = 1
+            if validate_numb_int(categories_menu_opt, menu_opt_min, 3):
                 categories_menu_opt = int(categories_menu_opt)
                 break
         if categories_menu_opt == 3:
