@@ -1128,7 +1128,7 @@ def sub_menu_print():
                     del df_exp['income']
                     clear()
                     print(f'\n{df_exp}')
-                    input('Enter the Return key in the '
+                    input('\nEnter the Return key in the '
                           'keyboard to continue...')
                 else:
                     # Income of one month
@@ -1203,7 +1203,7 @@ def del_exp_book():
             if len(categories) == 0:
                 print('No categories are present. '
                       'Please add a category first.')
-                sleep(4)
+                sleep(5)
             else:
                 print('\nAre you sure you want to delete all the categories '
                       '\nincluded the expenses and incomes?\n')
@@ -1274,7 +1274,7 @@ def del_exp_book():
                         exp_months[month - 1][categ] = 0
                     print(f'Expenses of ALL categories of {month_text} '
                           f'deleted successfully!')
-                    sleep(3)
+                    sleep(5)
 
                 elif sub_sub_menu_opt == 1:
                     # Delete Expense of a month of ONE category
@@ -1304,7 +1304,7 @@ def del_exp_book():
                 # Delete Income of one month
                 exp_months[month - 1]['income'] = 0
                 print(f'Incomes of {month_text} deleted successfully!')
-                sleep(3)
+                sleep(5)
 
         elif sub_menu_opt == 1:
             # Delete Expense or Income of the year
@@ -1326,7 +1326,7 @@ def del_exp_book():
 
                     print('Expenses of the whole year of '
                           'ALL categories deleted successfully.')
-                    sleep(3)
+                    sleep(5)
 
                 elif sub_sub_menu_opt == 1:
                     # Delete Expense of the whole year of ONE category
@@ -1350,7 +1350,7 @@ def del_exp_book():
 
                     print(f'Expenses of the whole year of the category '
                           f'{categ_name} deleted successfully!')
-                    sleep(3)
+                    sleep(5)
 
                 else:
                     # Go back
@@ -1362,7 +1362,7 @@ def del_exp_book():
                     exp_months[month]['income'] = 0
 
                 print('Expenses of the whole year deleted successfully!')
-                sleep(3)
+                sleep(5)
 
         else:
             # Go back
