@@ -870,7 +870,7 @@ def sub_menu_exp_income(income_expense_str):
             print(f'\n/// {option_str.capitalize()} an '
                   f'{income_expense_str} ///')
             add_edit_delete_exp_income(income_expense_str, option_str)
-            sleep(4)
+            sleep(5)
         else:
             break
 
