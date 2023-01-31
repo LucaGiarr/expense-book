@@ -909,7 +909,7 @@ def sub_menu_calcs():
         elif len(categories) == 0:
             print('\nThere are no expenses because no categories are present.')
             print('Add first a category.')
-            sleep(4)
+            sleep(5)
             break
 
         else:
@@ -962,7 +962,7 @@ def sub_menu_calcs():
                 month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro '
                       f'in the category {categ_name}.')
-                sleep(4)
+                sleep(5)
                 clear()
 
             elif sub_menu_opt == 1:
@@ -973,7 +973,7 @@ def sub_menu_calcs():
 
                 month_text = date_numb_to_text(date[1])
                 print(f'\nThe {day} of {month_text} you spent {result} euro.')
-                sleep(4)
+                sleep(5)
                 clear()
 
         elif menu_opt == 1:
@@ -1009,7 +1009,7 @@ def sub_menu_calcs():
                 print(
                     f'\nIn {month_text} you spent {result} euro'
                     f' in the category {categ_name}.')
-                sleep(4)
+                sleep(5)
                 clear()
 
             elif sub_menu_opt == 1:
@@ -1022,7 +1022,7 @@ def sub_menu_calcs():
 
                 month_text = date_numb_to_text(date_str)
                 print(f'\nIn {month_text} you spent {result} euro.')
-                sleep(4)
+                input('Enter the Return key in the keyboard to continue...')
                 clear()
 
         elif menu_opt == 2:
@@ -1048,7 +1048,7 @@ def sub_menu_calcs():
                 print(
                     f'\nIn the whole 2023 you spent {result} euro '
                     f'in the category {categ_name}.')
-                sleep(4)
+                sleep(5)
                 clear()
 
             elif sub_menu_opt == 1:
@@ -1064,7 +1064,7 @@ def sub_menu_calcs():
                     print(f'{month + 1}: {result_month} euro')
 
                 print(f'\nIn the whole 2023 you spent {result} euro.')
-                sleep(4)
+                input('Enter the Return key in the keyboard to continue...')
                 clear()
                 head_menus('calcs')
             else:
@@ -1128,12 +1128,14 @@ def sub_menu_print():
                     del df_exp['income']
                     clear()
                     print(f'\n{df_exp}')
-                    sleep(7)
+                    input('Enter the Return key in the '
+                          'keyboard to continue...')
                 else:
                     # Income of one month
                     clear()
                     print(f'\n{exp_months[month - 1].loc[:, "days":"income"]}')
-                    sleep(7)
+                    input('Enter the Return key in the '
+                          'keyboard to continue...')
 
             elif sub_menu_opt == 1:
                 # Expense or Income of the year
@@ -1153,7 +1155,8 @@ def sub_menu_print():
                     clear()
                     print(f'\n{result}')
                     print(f'\nIn total you spent {exp_year} euro this year.')
-                    sleep(7)
+                    input('Enter the Return key in the '
+                          'keyboard to continue...')
 
                 else:
                     # Income of the year
@@ -1167,7 +1170,8 @@ def sub_menu_print():
                     clear()
                     print(f'\n{result}')
                     print(f'\nThe income of the year is {inc_year[0]} euro.')
-                    sleep(7)
+                    input('Enter the Return key in the '
+                          'keyboard to continue...')
             else:
                 # Go back
                 pass
