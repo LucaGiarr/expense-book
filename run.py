@@ -94,6 +94,7 @@ def month_exp_load():
 
         exp_months[month] = pd.DataFrame(ws_float, index=range(len(rows) - 1),
                                          columns=col)
+        exp_months[month]['days'] = exp_months[month]['days'].astype('int')
 
 
 # Main menu
