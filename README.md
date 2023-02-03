@@ -39,6 +39,7 @@ View the live project [here](https://expense-book.herokuapp.com/)
   * [Known Bugs](#Known-Bugs)
 * [Validator Testing](#Validator-Testing)
 * [Deployment](#Deployment)
+  * [Restrictions](#Restrictions)
 * [Credits](#Credits)
   * [Code Used](#Code-Used)
   * [Acknowledgments](#Acknowledgments)
@@ -190,9 +191,9 @@ Then, the user is presented with the main menu from which he/she can access all 
 The app was tested continuously during the coding process with print() methods to make sure the correct functionality and features worked as expected.
 Errors or warnings were fixed as they appeared, such as indentation errors, lines too long or extra space issues.
 Testing inputs were used to ensure user inputs would be handled correctly and feedback was given to the user.
-Tests were carried out using a MacBook pro 2017 using the browsers Chrome, Safari and Mozilla Firefox.
+Tests were carried out using a MacBook pro 2017 and on a Windows laptop using the browsers Chrome, Safari and Mozilla Firefox.
 Tests were also carried out on mobile with the app working without errors on android.
-On IPhone the app loads but the user cannot interact with it because the os does not allow he/she to input any character or number from the keyboard.
+On iPhone the app loads but the user cannot interact with it because the os does not allow he/she to input any character or number from the keyboard.
 
 ### Validator Testing
 
@@ -221,7 +222,7 @@ The following tests were carried out to ensure the app would work as expected.
 
 ### Known Bugs
 
-When tests were carried out on mobile, on IPhone the app was loading the first page with no errors, it was printing the info regarding the data found (or not found) but the user could not interact with it because the browser did not allow he/she to input any character or number from the keyboard.
+When tests were carried out on mobile, on iPhone the app was loading the first page with no errors, it was printing the info regarding the data found (or not found) but the user could not interact with it because the browser did not allow he/she to input any character or number from the keyboard.
 The app was tested in multiple browsers such as Safari, Chrome and Firefox obtaining the same result.
 
 ---
@@ -250,6 +251,10 @@ Before deploying to Heroku pip3 freeze > requirements.txt was used to install de
 14. Scroll to the bottom of the deploy page and select Preferred deployment type:
     Click either Enable Automatic Deploys for automatic deployment when you push updates to GitHub.
     Select the correct branch for deployment from the drop-down menu and click Deploy Branch for manual deployment.
+
+### Restrictions
+
+As mentioned in the known bugs, due to the use of the mock terminal template provided, the user will not be able to navigate through the app if the app is run on iPhone. 
 
 ---
 
