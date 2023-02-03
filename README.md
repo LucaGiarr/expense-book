@@ -139,13 +139,13 @@ The data inserted by the user is validated at every time.
 The validation regards the menu choice, the name of the categories, the expenses and incomes and the date.
 If the user inputs anything else than the required options an error message is displayed letting the user know that this is the wrong input.
 
-![Validation menu](docs/val_menu.png)
+![Validation menu](docs/testing/val_menu.png)
 
-![Validation category name](docs/val_categ.png)
+![Validation category name](docs/testing/val_categ.png)
 
-![Validation date](docs/val_month.png)
+![Validation date](docs/testing/val_month.png)
 
-![Validation category present](docs/val_cat_present.png)
+![Validation category present](docs/testing/val_cat_present.png)
 
 ### Future Development
 
@@ -199,7 +199,7 @@ On iPhone the app loads but the user cannot interact with it because the os does
 
 [pep8 online (Code Institute)](https://pep8ci.herokuapp.com/) was used to validate the code. The file run.py was checked with no errors reported.
 
-![pep8 code checked result](docs/check_code.png)
+![pep8 code checked result](docs/testing/check_code.png)
 
 ### Manual Testing
 
